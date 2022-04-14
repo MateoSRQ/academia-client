@@ -1,0 +1,52 @@
+.component {
+    width: 100%;
+    height: 100%;
+    --menuWidth: 366px;
+    --padding: 20px;
+    perspective: 600px;
+}
+
+.menuContainer {
+    position: absolute;
+    width: var(--menuWidth);
+    left: var(--padding);
+    top: var(--padding);
+    height: calc(100% - calc(var(--padding) * 2));
+    /*background-color: #c5c5c5;*/
+    background-color: transparent !important;
+    padding: 10px;
+}
+
+
+.mainContainer {
+    position: absolute;
+    width: calc(100% - calc(var(--padding)*2));
+    height:  calc(100% - calc(var(--padding)*2));
+    left: var(--padding);
+    top: var(--padding);
+    overflow: hidden;
+    background-color: white;
+    border-radius: 8px;
+    /*box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);*/
+}
+
+.container {
+    position: relative;
+    top:  0;
+    left: 0;
+    height: calc(100%);
+    width: calc(100%);
+}
+
+.leftSideButton {
+    position: relative;
+    width: 30px;
+    height: 100px;
+    top: calc(-50% - 50px);
+    left: 0;
+    background-color: #0a63d7;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    cursor: pointer;
+    /*box-shadow: inset 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);*/
+}

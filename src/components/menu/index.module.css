@@ -1,0 +1,34 @@
+.component {
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important;
+}
+
+:global(.ant-menu), :global(.ant-menu-submenu) :global(.ant-menu-submenu-title), :global(.ant-menu-sub),
+:global(.ant-menu-item-group), :global(.ant-menu-item-group-title) {
+    /*background-color: #c5c5c5 !important;*/
+    background-color: transparent !important;
+    border-right: none !important;
+    color: white !important;
+}
+
+:global(.ant-menu-item::after) {
+    border-right: none !important;
+    background-color: transparent !important;
+    color: white !important;
+}
+
+:global(.ant-menu-item-selected) {
+    /*background-color: #c5c5c5 !important;*/
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.component * {
+    font-family: 'Anek Tamil', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1rem;
+    color: white !important;
+}
