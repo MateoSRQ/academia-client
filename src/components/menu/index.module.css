@@ -9,13 +9,13 @@
     /*background-color: #c5c5c5 !important;*/
     background-color: transparent !important;
     border-right: none !important;
-    color: white !important;
+    background-color: #4241a5 !important;
 }
 
 :global(.ant-menu-item::after) {
     border-right: none !important;
     background-color: transparent !important;
-    color: white !important;
+    background-color: #4241a5 !important;
 }
 
 :global(.ant-menu-item-selected) {

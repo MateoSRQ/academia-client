@@ -1,0 +1,16 @@
+.component {
+    width: 100%;
+    height: 100%;
+    background-color: transparent !important;
+}
+
+.component * {
+    font-family: 'Anek Tamil', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
+
+}
+
+:global(.ant-table.cell) {
+    color: black !important;
+    font-size: 10em !important;
+}
