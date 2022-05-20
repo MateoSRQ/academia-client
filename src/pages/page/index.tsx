@@ -29,7 +29,7 @@ function Component() {
                 dataIndex: 'id',
                 width: 100,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '100px' }}>
                         {text}
                     </div>
                 ),
@@ -39,7 +39,7 @@ function Component() {
                 dataIndex: 'first_name',
                 width: 300,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '150px' }}>
                         {text}
                     </div>
                 ),
@@ -49,7 +49,7 @@ function Component() {
                 dataIndex: 'last_name',
                 width: 350,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '150px' }}>
                         {text}
                     </div>
                 ),
@@ -57,9 +57,9 @@ function Component() {
             {
                 title: 'e-mail',
                 dataIndex: 'email',
-                width: 150,
+                width: 350,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '250px' }}>
                         {text}
                     </div>
                 ),
@@ -67,9 +67,9 @@ function Component() {
             {
                 title: 'Gender',
                 dataIndex: 'gender',
-                width: 100,
+                width: 150,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '200px' }}>
                         {text}
                     </div>
                 ),
@@ -77,9 +77,9 @@ function Component() {
             {
                 title: 'IP Address',
                 dataIndex: 'ip_address',
-                width: 150,
+                width: 250,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '150px' }}>
                         {text}
                     </div>
                 ),
@@ -87,9 +87,9 @@ function Component() {
             {
                 title: 'Text',
                 dataIndex: 'text',
-                width: 250,
+                width: 450,
                 render: (text, record) => (
-                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '250px' }}>
                         {text}
                     </div>
                 ),
@@ -1176,7 +1176,7 @@ function Component() {
                 <TabPane tab="Tab 1" key="1" className={style.tab}>
                     <div>
                         <div style={{width: 'calc(100% - 150px)', position: 'relative'}}>
-                            <Scrollbar style={{height: dimensions.height  - 256 +  'px'}} >
+                            <Scrollbar style={{height: dimensions.height  - 256 +  'px', outline: '1px solid white'}} >
                                 <div style={{height: '10000px', width: 'calc(100% - 20px)'}}>
                                     <Table data={data} columns={columns}/>
                                 </div>
