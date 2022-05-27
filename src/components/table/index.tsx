@@ -28,7 +28,13 @@ function Component( props: any ) {
 
     return (
         <div className={style.component}>
-            <Table rowSelection={rowSelection} columns={props.columns} dataSource={props.data} size="small"/>
+            <Table
+                rowSelection={rowSelection}
+                columns={props.columns}
+                dataSource={props.data}
+                size="small"
+                pagination={{ position: ['bottomCenter'] }}
+            />
         </div>
     )
 }

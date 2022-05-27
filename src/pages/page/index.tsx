@@ -20,7 +20,7 @@ function Component() {
     const ref = useRef<HTMLDivElement>()
     const [dimensions, setDimensions] = useState({x: 0, y: 0, top: 0, bottom: 0, left: 0, right: 0, height: 0, width: 0})
     const [drawer1Visible, setDrawer1Visible] = useState(false)
-    const [data, setData] = useState([])
+    const [data, setData] = useState<any[]>([])
 
     const columns =
         [
@@ -99,7 +99,7 @@ function Component() {
 
 
     const getData = () => {
-        setData([
+        let data = [
             {"id":1,"first_name":"Theodoric","last_name":"Jupe","email":"tjupe0@so-net.ne.jp","gender":"Male","ip_address":"163.162.0.226","text":"Other isotope function"},
             {"id":2,"first_name":"Burt","last_name":"Johnke","email":"bjohnke1@webnode.com","gender":"Male","ip_address":"221.127.65.235","text":"Partial sialoadenectomy"},
             {"id":3,"first_name":"Andris","last_name":"Wyer","email":"awyer2@wunderground.com","gender":"Male","ip_address":"53.94.127.117","text":"Mri musculoskeletal"},
@@ -1100,7 +1100,13 @@ function Component() {
             {"id":998,"first_name":"Quintina","last_name":"Topham","email":"qtophamrp@examiner.com","gender":"Female","ip_address":"34.224.236.88","text":"Lacrimal gland biopsy"},
             {"id":999,"first_name":"Linell","last_name":"Langstone","email":"llangstonerq@dropbox.com","gender":"Female","ip_address":"223.187.56.120","text":"Impl intraoc telesc pros"},
             {"id":1000,"first_name":"Laney","last_name":"Rasell","email":"lrasellrr@un.org","gender":"Female","ip_address":"209.226.156.174","text":"Thymus field exploration"}
-        ])
+        ]
+
+        let _data = data.map((item: any) => {
+           return {...item, key: item.id}
+        })
+        console.log(_data)
+        setData(_data)
     }
 
 

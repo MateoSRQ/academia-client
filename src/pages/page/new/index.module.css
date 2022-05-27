@@ -1,9 +1,26 @@
 .component {
     width: 100%;
     height: 100%;
-    border: 1px solid gray;
     position: relative;
     left: 0;
     top: 0;
-    padding: 15px;
+    padding: 0px;
+}
+
+.title {
+    height: 25px;
+}
+
+
+.scroller {
+    height: calc(100% - 25px) !important;
+}
+
+:global(.ant-drawer-body) {
+    padding: 12px;
+    padding-right: 6px;
+}
+
+.form {
+    padding-right: 16px;
 }
