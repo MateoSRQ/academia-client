@@ -9,6 +9,8 @@ import 'antd/dist/antd.css'
 
 function Component( props: any ) {
 
+    console.log('variables')
+    console.log(props)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [data, setData] = useState([])
 
@@ -33,7 +35,7 @@ function Component( props: any ) {
                 columns={props.columns}
                 dataSource={props.data}
                 size="small"
-                pagination={{ position: ['bottomCenter'] }}
+                pagination={props.pagination}
             />
         </div>
     )
