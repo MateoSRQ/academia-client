@@ -5,7 +5,13 @@ interface StoreState {
     addAlumno: (payload: any) => void
 }
 
+
 export const useStore = create<StoreState>((set) => ({
+    // login: (name: string,password: string) =>{
+    //     if(name === "admin" && password === "admin"){
+            
+    //     }
+    // },
     alumnos: [
         {
         "id": 1,
@@ -599,7 +605,7 @@ export const useStore = create<StoreState>((set) => ({
             }
         }],
     addAlumno: (payload: any) => {
-        console.log('add alumno')
+        // console.log('add alumno')
         set((state)  => ({
             alumnos: [...state.alumnos, payload]
         }))

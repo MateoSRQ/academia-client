@@ -1,9 +1,9 @@
-import {useState, useRef, useEffect, useLayoutEffect} from 'react'
-import {Drawer, Button, Space, Col, Row, Pagination} from 'antd';
-import {Tooltip} from 'antd';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
+import { Drawer, Button, Space, Col, Row, Pagination } from 'antd';
+import { Tooltip } from 'antd';
 import { Menu, Dropdown } from 'antd';
-import {UserOutlined} from '@ant-design/icons';
-import {Breadcrumb} from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import { Breadcrumb } from 'antd';
 import style from './index.module.css'
 import 'antd/dist/antd.css'
 import { Tabs, Radio } from 'antd';
@@ -11,16 +11,16 @@ import { Input } from 'antd';
 import Scrollbar from 'react-custom-scrollbars'
 import useDimensions from 'react-use-dimensions'
 import axios from 'axios'
-import  Table from '../../components/table'
+import Table from '../../components/table'
 import New from './new'
 
-import {useStore} from '../../store'
+import { useStore } from '../../store'
 const { Search } = Input;
 const { TabPane } = Tabs;
 
 function Component() {
     const ref = useRef<HTMLDivElement>()
-    const [dimensions, setDimensions] = useState({x: 0, y: 0, top: 0, bottom: 0, left: 0, right: 0, height: 0, width: 0})
+    const [dimensions, setDimensions] = useState({ x: 0, y: 0, top: 0, bottom: 0, left: 0, right: 0, height: 0, width: 0 })
     const [drawer1Visible, setDrawer1Visible] = useState(false)
     const [data, setData] = useState<any[]>([])
     const alumnos = useStore((state) => state.alumnos)
@@ -99,35 +99,35 @@ function Component() {
                 ),
             },
             {
-            title: 'Tipo Documento',
-            dataIndex: 'postulante.persona.documentoCodigo',
-            width: 250,
-            render: (text, record) => (
-                <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '150px' }}>
-                    {record.postulante.persona.documentoCodigo}
-                </div>
-            ),
-        },
-        {
-            title: 'Teléfono 01',
-            dataIndex: 'postulante.persona.telefono_1',
-            width: 350,
-            render: (text, record) => (
-                <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '250px' }}>
-                    {record.postulante.persona.telefono_1}
-                </div>
-            ),
-        },
-        {
-            title: 'Teléfono 02',
-            dataIndex: 'postulante.persona.telefono_2',
-            width: 350,
-            render: (text, record) => (
-                <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '250px' }}>
-                    {record.postulante.persona.telefono_2}
-                </div>
-            ),
-        },
+                title: 'Tipo Documento',
+                dataIndex: 'postulante.persona.documentoCodigo',
+                width: 250,
+                render: (text, record) => (
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '150px' }}>
+                        {record.postulante.persona.documentoCodigo}
+                    </div>
+                ),
+            },
+            {
+                title: 'Teléfono 01',
+                dataIndex: 'postulante.persona.telefono_1',
+                width: 350,
+                render: (text, record) => (
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '250px' }}>
+                        {record.postulante.persona.telefono_1}
+                    </div>
+                ),
+            },
+            {
+                title: 'Teléfono 02',
+                dataIndex: 'postulante.persona.telefono_2',
+                width: 350,
+                render: (text, record) => (
+                    <div style={{ wordWrap: 'break-word', wordBreak: 'break-word', width: '250px' }}>
+                        {record.postulante.persona.telefono_2}
+                    </div>
+                ),
+            },
         ]
 
     useEffect(() => {
@@ -136,11 +136,11 @@ function Component() {
         // async function fetch() {
         //     let data01 = await axios.get('/assets/data.json')
         //     console.log('zzzzzzzz')
-            let _data = alumnos.map((item: any) => {
-                return {...item, key: item.id}
-            })
-            console.log(_data)
-            setData(_data)
+        let _data = alumnos.map((item: any) => {
+            return { ...item, key: item.id }
+        })
+        console.log(_data)
+        setData(_data)
         // }
         // fetch()
         console.log('yyyyyyy')
@@ -173,14 +173,14 @@ function Component() {
     return (
         <div className={style.component} ref={ref}>
             <div
-                // style={{outline: '1px solid blue'}}
+            // style={{outline: '1px solid blue'}}
             >
                 <div className={style.header1}>
                     <Row>
                         <Col span={12}>
                             <div className={style.breadcrumb}>
                                 <Breadcrumb>
-                                    <Breadcrumb.Item >Home</Breadcrumb.Item>
+                                    <Breadcrumb.Item >Home page</Breadcrumb.Item>
                                     <Breadcrumb.Item>
                                         <a href="">Application Center</a>
                                     </Breadcrumb.Item>
@@ -204,8 +204,8 @@ function Component() {
                         </div>
                         <div className={style.header3}>Listado del número 501 al 599, activos únicamente</div>
                     </Col>
-                    <Col span={8} style={{textAlign: 'right'}} >
-                        <Search style={{width: '280px', marginTop: '12px'}} placeholder="input search text" enterButton="Buscar" size="large" loading />
+                    <Col span={8} style={{ textAlign: 'right' }} >
+                        <Search style={{ width: '280px', marginTop: '12px' }} placeholder="input search text" enterButton="Buscar" size="large" loading />
                     </Col>
                 </Row>
             </div>
@@ -213,13 +213,13 @@ function Component() {
             <Tabs className={style.tabs} >
                 <TabPane tab="Tab 1" key="1" className={style.tab}>
                     <div>
-                        <div style={{width: 'calc(100% - 150px)', position: 'relative'}}>
-                            <Scrollbar style={{height: dimensions.height  - 256 +  'px', outline: '1px solid white'}} >
-                                <div style={{height: '10000px', width: 'calc(100% - 20px)'}}>
+                        <div style={{ width: 'calc(100% - 150px)', position: 'relative' }}>
+                            <Scrollbar style={{ height: dimensions.height - 256 + 'px', outline: '1px solid white' }} >
+                                <div style={{ height: '10000px', width: 'calc(100% - 20px)' }}>
                                     <Table
                                         data={data}
                                         columns={columns}
-                                        pagination={{ pageSize: 100, pageSizeOptions: ['10', '50', '100']}}
+                                        pagination={{ pageSize: 100, pageSizeOptions: ['10', '50', '100'] }}
                                     >
 
                                     </Table>
@@ -227,7 +227,7 @@ function Component() {
                             </Scrollbar>
                         </div>
                         <Space className={style.rightBar} style={{ display: 'flex' }} direction="vertical">
-                            <Button block onClick={() => {handleClick(1)}}>Button 1</Button>
+                            <Button block onClick={() => { handleClick(1) }}>Button 1</Button>
                             <Button block>Button 2</Button>
                             <Button block>Button 3</Button>
                             <Button block>Button 4</Button>
@@ -236,7 +236,7 @@ function Component() {
                         <Drawer
                             visible={drawer1Visible}
                             // getContainer={false}
-                            onClose={() => {handleClose(1)}}
+                            onClose={() => { handleClose(1) }}
                             style={{ position: 'absolute' }}
                             closable={false}
                         >

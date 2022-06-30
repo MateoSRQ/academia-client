@@ -11,13 +11,14 @@ import {
 
 
 ReactDOM.render(
-  <React.StrictMode>
-      <BrowserRouter>
-          <Routes>
-              <Route path="/app" element={<App />} />
-              <Route path="/login" element={<Login />} />
-          </Routes>
-      </BrowserRouter>
-  </React.StrictMode>,
-  document.getElementById('root')
+    <React.StrictMode>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/app" element={<App />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/" element={<Login />} />
+            </Routes>
+        </BrowserRouter>
+    </React.StrictMode>,
+    document.getElementById('root')
 )
