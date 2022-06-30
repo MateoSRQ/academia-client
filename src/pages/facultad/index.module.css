@@ -29,6 +29,7 @@
     color: #4241a5 !important;
     letter-spacing: -.5px;
     margin-top: 4px;
+    margin-bottom: 6px;
     padding-left:  15px;
 }
 
@@ -103,17 +104,24 @@
 
 .container {
     position: relative;
-    height: 730px;
+    height: 47em;
     display: flex;
     align-items: self-end;
     flex-direction: column;
     justify-content: center;
-    width: calc(100% - 100px);
+    width: calc(100% - 50px);
     padding-right: 3em;
 }
 
-.container_child {
+.containerChild {
     padding-bottom: 0.7em;
     display: flex;
     flex-direction: row;
+}
+
+.addIcon {
+    font-size: 36px;
+    margin: auto 0;
+    color: #70b4fc;
+    transform: translateY(-6%);
 }

@@ -40,17 +40,23 @@ function Component() {
             abreviatura: "",
         },
     })
-    const { facultad, listarFacultad, guardarFacultad, actualizarFacultad, eliminarFacultad } = useFacultadStore()
+    const {
+        facultad,
+        listarFacultad,
+        guardarFacultad,
+        actualizarFacultad,
+        eliminarFacultad,
+    } = useFacultadStore()
 
     const handleEdit = (e: any) => {
         handleClick(2)
-        setFacultadEditada(state=>({ ...state ,datos : e}))
+        setFacultadEditada((state) => ({ ...state, datos: e }))
     }
     let navigate = useNavigate()
 
     const columns = [
         {
-            title: "ID",            
+            title: "ID",
             //key:"id",
             width: 100,
             render: (_, record) => (
@@ -66,7 +72,7 @@ function Component() {
             ),
         },
         {
-            title: "Código",            
+            title: "Código",
             //key:"codigo",
             width: 300,
             render: (_, record) => (
@@ -82,7 +88,7 @@ function Component() {
             ),
         },
         {
-            title: "Facultad",            
+            title: "Facultad",
             //key:"nombre",
             width: 300,
             render: (_, record) => (
@@ -90,7 +96,7 @@ function Component() {
                     style={{
                         wordWrap: "break-word",
                         wordBreak: "break-word",
-                        width: "450px",
+                        width: "250px",
                     }}
                 >
                     {record.nombre}
@@ -99,7 +105,7 @@ function Component() {
         },
         {
             title: "Abreviatura",
-            //key:"abreviatura",            
+            //key:"abreviatura",
             width: 350,
             render: (_, record) => (
                 <div
@@ -136,21 +142,27 @@ function Component() {
         },
         */
         {
-            title: "Acción",            
+            title: "Acción",
             width: 350,
             render: (_, record) => (
                 <div
                     style={{
                         wordWrap: "break-word",
                         wordBreak: "break-word",
-                        width: "200px",
+                        width: "50px",
                     }}
                 >
                     {
                         <div>
-                            <EditOutlined style={{ fontSize: '17px', color : '#70b4fc'}} onClick={() => handleEdit(record)} />
+                            <EditOutlined
+                                style={{ fontSize: "17px", color: "#70b4fc" }}
+                                onClick={() => handleEdit(record)}
+                            />
                             &nbsp;&nbsp;&nbsp;
-                            <DeleteOutlined style={{ fontSize: '17px', color : '#70b4fc'}} onClick={() => confirm(record.id)} />
+                            <DeleteOutlined
+                                style={{ fontSize: "17px", color: "#70b4fc" }}
+                                onClick={() => confirm(record.id)}
+                            />
                         </div>
                     }
                 </div>
@@ -195,11 +207,11 @@ function Component() {
             cancelText: "Cerrar",
             onOk: async () => {
                 const response = await eliminarFacultad(id)
-                const { resultado, mensaje } = response.data                
+                const { resultado, mensaje } = response.data
                 if (resultado === 1) {
                     success(mensaje)
                 } else {
-                    message.error(mensaje);
+                    message.error(mensaje)
                 }
             },
         })
@@ -210,28 +222,30 @@ function Component() {
     }
 
     const FacultadForm = (props: any) => {
-        const { facultadEditada : { estado, datos} } = props
+        const {
+            facultadEditada: { estado, datos },
+        } = props
         const [form] = Form.useForm()
         useEffect(() => {
             estado && form.setFieldsValue(datos)
         }, [])
 
         const handleFinish = async (e: any) => {
-            if (estado) {                
-                const response = await actualizarFacultad(e)                
-                const { resultado, mensaje } = response.data                
+            if (estado) {
+                const response = await actualizarFacultad(e)
+                const { resultado, mensaje } = response.data
                 if (resultado === 1) {
                     success(mensaje)
                 } else {
-                    message.error(mensaje);
-                }                
-            } else {                
+                    message.error(mensaje)
+                }
+            } else {
                 const response = await guardarFacultad(e)
-                const { resultado, mensaje } = response.data                                
+                const { resultado, mensaje } = response.data
                 if (resultado === 1) {
                     success(mensaje)
                 } else {
-                    message.error(mensaje);
+                    message.error(mensaje)
                 }
             }
             setDrawerVisible(false)
@@ -249,11 +263,7 @@ function Component() {
                     onFinish={handleFinish}
                     form={form}
                 >
-                    <Form.Item
-                        label="Id"
-                        name="id"                        
-                        hidden
-                    >
+                    <Form.Item label="Id" name="id" hidden>
                         <Input />
                     </Form.Item>
                     <Form.Item
@@ -275,7 +285,9 @@ function Component() {
                     <Form.Item
                         label="Abreviatura"
                         name="abreviatura"
-                        rules={[{ required: true, message: 'Debe ingresar una abreviatura' }]}
+                        rules={[
+                            { required: true, message: "Debe ingresar una abreviatura" },
+                        ]}
                     >
                         <Input />
                     </Form.Item>
@@ -301,6 +313,44 @@ function Component() {
         )
     }
 
+    const Fecha = () => {
+        const fechaActual = new Date()
+        const dias = [
+            "Domingo",
+            "Lunes",
+            "Martes",
+            "Miercoles",
+            "Jueves",
+            "Viernes",
+            "Sábado",
+        ]
+        const meses = [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Setiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre",
+        ]
+        return (
+            <h5>
+                {dias[fechaActual.getDay()] +
+                    " " +
+                    fechaActual.getDate() +
+                    " de " +
+                    meses[fechaActual.getMonth()] +
+                    " del " +
+                    fechaActual.getFullYear()}
+            </h5>
+        )
+    }
+
     // @ts-ignore
     return (
         <div className={style.component} ref={ref}>
@@ -317,7 +367,7 @@ function Component() {
                                     <Breadcrumb.Item>Facultad</Breadcrumb.Item>
                                 </Breadcrumb>
                             </div>
-                        </Col>                        
+                        </Col>
                         <Col span={12}>
                             {/*<div className={style.username}>Bienvenido, Mateo!</div>*/}
                             <Button
@@ -328,28 +378,50 @@ function Component() {
                         </Col>
                     </Row>
                 </div>
+
                 <Row>
-                    <Col span={16}>
+                    <Col span={24}>
+                        <div
+                            style={{
+                                textAlign: "right",
+                                marginRight: "0.5em",
+                                marginTop: "0.4m",
+                            }}
+                        >
+                            <Fecha />
+                        </div>
                         <div className={style.header2}>Listado de Facultades</div>
-                        <div className={style.header3}>Listado del número 501 al 599</div>
+                        <div className={style.header3}>
+                            Listado de información : 01 al{" "}
+                            {facultad.length > 9
+                                ? facultad.length
+                                : "0" + facultad.length}
+                        </div>
                     </Col>
                 </Row>
             </div>
             <div>
                 <div className={style.container}>
-                    <div className={style.container_child}>
+                    <div
+                        className={style.containerChild}
+                        //style={{ outline: "1px solid red" }}
+                    >
                         <Col>
                             <Search
                                 placeholder="input search text..."
                                 enterButton="Buscar"
-                                size="large"
+                                size="middle"
                                 //onChange={handleChange}
-                                loading
                             />
-                        </Col>                        
-                        <PlusSquareOutlined onClick={() => handleClick(1)} style={{ fontSize: '30px', margin:'auto 0', color : '#70b4fc'}}/>                        
+                        </Col>
+                        <PlusSquareOutlined
+                            onClick={() => handleClick(1)}
+                            className={style.addIcon}
+                        />
                     </div>
-                    <div style={{ width: "calc(100% - 30px)" }}>
+                    <div
+                        style={{ width: "calc(100% - 30px)"}}
+                    >
                         <Table
                             data={facultad}
                             columns={columns}
