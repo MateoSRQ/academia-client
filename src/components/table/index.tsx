@@ -9,10 +9,10 @@ import 'antd/dist/antd.css'
 
 function Component( props: any ) {
 
-    console.log('variables')
+    //console.log('variables')
     console.log(props)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
-    const [data, setData] = useState([])
+    //const [data, setData] = useState([])
 
     const onSelectChange = (selectedRowKeys: any) => {
         console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -31,7 +31,6 @@ function Component( props: any ) {
     return (
         <div className={style.component}>
             <Table
-                rowSelection={rowSelection}
                 columns={props.columns}
                 dataSource={props.data}
                 size="small"

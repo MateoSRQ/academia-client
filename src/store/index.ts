@@ -1,5 +1,5 @@
 import create from "zustand"
-import { deleteData, fetchData, saveData, updateData } from "../components/helpers/facultad"
+import { deleteData, fetchData, saveData, updateData } from "../helpers/facultad"
 
 interface StoreState {
     alumnos: any[]
@@ -622,11 +622,12 @@ interface Facultad {
     codigo: string
     nombre: string
     abreviatura: string
+    estadoAuditorio : boolean
 }
 
 interface FacultadStore {
     facultad: Facultad[]
-    listarFacultad: () => void
+    listarFacultad: () => {}
     guardarFacultad: (payload: any) => {}
     eliminarFacultad: (id: number) => {}
     actualizarFacultad: (payload: any) => {}
@@ -636,8 +637,9 @@ export const useFacultadStore = create<FacultadStore>((set) => ({
     facultad: [],
     listarFacultad: async () => {
         const response = await fetchData()
-        console.log(response)
+        console.log(response)        
         set({ facultad: response.data })
+        return response
     },
     guardarFacultad: async (payload: any) => {
         const response = await saveData(payload)

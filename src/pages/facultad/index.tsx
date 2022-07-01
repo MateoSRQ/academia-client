@@ -8,7 +8,7 @@ import {
     //Pagination,
     Form,
     Modal,
-    //Radio,
+    Radio,
     Input,
     message,
 } from "antd"
@@ -16,11 +16,12 @@ import style from "../facultad/index.module.css"
 import "antd/dist/antd.css"
 import Table from "../../components/table"
 import {
-    //CheckCircleOutlined,
-    //CloseCircleOutlined,
+    CheckCircleOutlined,
+    CloseCircleOutlined,
     DeleteOutlined,
     EditOutlined,
     ExclamationCircleOutlined,
+    FileTextOutlined,
     PlusSquareOutlined,
 } from "@ant-design/icons"
 
@@ -31,6 +32,7 @@ const { Search } = Input
 function Component() {
     const ref = useRef<HTMLDivElement>()
     const [drawerVisible, setDrawerVisible] = useState(false)
+    const [responseTime, setResponseTime] = useState(0)
     const [facultadEditada, setFacultadEditada] = useState({
         estado: false,
         datos: {
@@ -74,7 +76,7 @@ function Component() {
         {
             title: "Código",
             //key:"codigo",
-            width: 300,
+            width: 200,
             render: (_, record) => (
                 <div
                     style={{
@@ -106,7 +108,7 @@ function Component() {
         {
             title: "Abreviatura",
             //key:"abreviatura",
-            width: 350,
+            width: 300,
             render: (_, record) => (
                 <div
                     style={{
@@ -118,12 +120,10 @@ function Component() {
                     {record.abreviatura}
                 </div>
             ),
-        },
-        /*
+        },       
         {
-            title: "Estado",
-            //dataIndex: 'postulante.persona.apellidoMaterno',
-            width: 350,
+            title: "Estado",          
+            width: 200,
             render: (_, record) => (
                 <div
                     style={{
@@ -132,18 +132,17 @@ function Component() {
                         width: "150px",
                     }}
                 >
-                    {record.estado ? (
+                    {record.estadoAuditoria ? (
                         <CheckCircleOutlined style={{ color: "green" }} />
                     ) : (
                         <CloseCircleOutlined style={{ color: "red" }} />
                     )}
                 </div>
             ),
-        },
-        */
+        },       
         {
             title: "Acción",
-            width: 350,
+            width: 200,
             render: (_, record) => (
                 <div
                     style={{
@@ -170,8 +169,9 @@ function Component() {
         },
     ]
 
-    useEffect(() => {
-        listarFacultad()
+    useEffect(async () => {
+        const response = await listarFacultad()
+        setResponseTime(response.responseTime)
     }, [])
 
     const handleClick = (button: number) => {
@@ -257,8 +257,7 @@ function Component() {
                     <hr />
                     <p>Favor de ingresar la información solicitada</p>
                 </div>
-                <Form
-                    //name="login"
+                <Form                    
                     layout="vertical"
                     onFinish={handleFinish}
                     form={form}
@@ -271,7 +270,7 @@ function Component() {
                         name="codigo"
                         rules={[{ required: true, message: "Debe ingresar un código" }]}
                     >
-                        <Input />
+                        <Input prefix={<FileTextOutlined style={{ marginRight : '0.5em'}} />} />
                     </Form.Item>
 
                     <Form.Item
@@ -279,7 +278,7 @@ function Component() {
                         name="nombre"
                         rules={[{ required: true, message: "Debe ingresar un nombre" }]}
                     >
-                        <Input />
+                        <Input prefix={<FileTextOutlined style={{ marginRight : '0.5em'}} />}  />
                     </Form.Item>
 
                     <Form.Item
@@ -289,9 +288,9 @@ function Component() {
                             { required: true, message: "Debe ingresar una abreviatura" },
                         ]}
                     >
-                        <Input />
+                        <Input prefix={<FileTextOutlined style={{ marginRight : '0.5em'}} />}  />
                     </Form.Item>
-                    {/**
+                    {/* Probar con radio y combo al mismo tiempo
                     <Form.Item
                         label="Estado"
                         name="estado"
@@ -302,7 +301,7 @@ function Component() {
                             <Radio value={0}>Inactivo</Radio>
                         </Radio.Group>
                     </Form.Item>
-*/}
+                    */}
                     <Form.Item>
                         <Button size="large" type="primary" htmlType="submit" block>
                             {estado ? "Actualizar" : "Registrar"}
@@ -419,16 +418,13 @@ function Component() {
                             className={style.addIcon}
                         />
                     </div>
-                    <div
-                        style={{ width: "calc(100% - 30px)"}}
-                    >
+                    <div style={{ width: "calc(100% - 30px)" }}>
                         <Table
                             data={facultad}
                             columns={columns}
-                            bordered
-                            //rowKey="codigo"
                             //pagination={{ pageSize: 100, pageSizeOptions: ['10', '50', '100']}}
                         ></Table>
+                        <h5 style={{textAlign : 'right'}}>{ responseTime } seg. en respuesta</h5>
                     </div>
                 </div>
                 <Drawer
