@@ -9,6 +9,8 @@ import {
     Route,
 } from "react-router-dom";
 
+// console.log(import.meta.env.VITE_NOMBRE)
+
 
 ReactDOM.render(
     <React.StrictMode>

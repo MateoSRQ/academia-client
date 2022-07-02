@@ -1,107 +1,112 @@
 .component {
-    width: 100%;
-    height: 100%;
-    border: 1px solid gray;
-    position: relative;
-    left: 0;
-    top: 0;
-    padding: 15px;
-    padding-left: 50px;
+  width: 100%;
+  height: 100%;
+  border: 1px solid gray;
+  position: relative;
+  left: 0;
+  top: 0;
+  padding: 15px;
+  padding-left: 50px;
 }
 
 .header {
-    width: 100%;
-    height: 120px;
-    border-bottom: 1px solid #c2c2c2;
+  width: 100%;
+  height: 120px;
+  border-bottom: 1px solid #c2c2c2;
 }
 
 .header1 {
-    width: 100%;
-    height: 50px;
-    line-height: 50px;
-    text-align: right;
-    border-bottom: 1px solid #c2c2c2;
-    font-size: 1rem !important;
-    background-color: white;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  text-align: right;
+  border-bottom: 1px solid #c2c2c2;
+  font-size: 1rem !important;
+  background-color: white;
 }
 
 .header2 {
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1.7rem;
-    font-weight: bold;
-    color: #4241a5 !important;
-    letter-spacing: -.5px;
-    margin-top: 4px;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #4241a5 !important;
+  letter-spacing: -0.5px;
+  margin-top: 4px;
 }
 
 .header2 span {
-    color: #6b6b6c !important;
-    font-weight: 400;
+  color: #6b6b6c !important;
+  font-weight: 400;
 }
 
 .header3 {
-    width: 100%;
-    height: 40px;
-    line-height: 30px;
-    border-bottom: 1px solid rgba(194, 194, 194, 0.45);
-    font-family: 'Source Sans Pro', sans-serif;
-    font-size: 1.0rem;
-    font-weight: 400;
-    color: #6a6a6c !important;
-    letter-spacing: -.2px;
-    margin-top: -5px;
-    padding-left:  16px;
+  width: 100%;
+  height: 40px;
+  line-height: 30px;
+  border-bottom: 1px solid rgba(194, 194, 194, 0.45);
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #6a6a6c !important;
+  letter-spacing: -0.2px;
+  margin-top: -5px;
+  padding-left: 16px;
 }
 
-
 .component * {
-    font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
 .username {
-    color: black;
-    /*font-weight: bold;*/
-    font-family: 'Roboto', sans-serif !important;
-    padding-right: 30px;
+  color: black;
+  /*font-weight: bold;*/
+  font-family: "Roboto", sans-serif !important;
+  padding-right: 30px;
 }
 
 .breadcrumb {
-    text-align: left;
-    line-height: 50px;
-    vertical-align: middle;
-    margin-top: 16px;
-    font-family: 'Roboto', sans-serif !important;
+  text-align: left;
+  line-height: 50px;
+  vertical-align: middle;
+  margin-top: 16px;
+  font-family: "Roboto", sans-serif !important;
 }
 
 :global(.ant-tabs) {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 :global(.ant-tabs-tab) {
-    min-width: 15vw !important;
-    text-transform: uppercase;
+  min-width: 15vw !important;
+  text-transform: uppercase;
 }
 
 .tabs {
-    height:  calc(100% - 160px);
+  height: calc(100% - 160px);
 }
 
 .tab {
-    /*height: 100% !important;*/
-    height: 100%;
-    width: calc(100% - 6px);
-    position: relative;
+  /*height: 100% !important;*/
+  height: 100%;
+  width: calc(100% - 6px);
+  position: relative;
 }
 
 .rightBar {
-    width: 140px;
-    border-left: .5px solid #d0d0d0;
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 8px;
-    padding-right: 16px;
+  width: 140px;
+  border-left: 0.5px solid #d0d0d0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 8px;
+  padding-right: 16px;
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10rem;
 }
