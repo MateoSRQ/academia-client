@@ -227,13 +227,19 @@ function Component() {
       okText: "Aceptar",
       cancelText: "Cerrar",
       onOk: async () => {
-        const response = await eliminarSede(id);
-        const { resultado, mensaje } = response.data;
-        if (resultado === 1) {
-          message.success(mensaje);
-        } else {
-          message.error(mensaje);
+
+        try {
+          const response = await eliminarSede(id);
+          const { resultado, mensaje } = response.data;
+          if (resultado === 1) {
+            message.success(mensaje);
+          } else {
+            message.error(mensaje);
+          }
+        } catch (error) {
+          message.error("Ocurrió un error, por favor intente nuevamente");
         }
+
       },
     });
   };

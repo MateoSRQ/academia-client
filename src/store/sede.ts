@@ -16,6 +16,7 @@ export const useSedeStore = create<SedeStore>((set) => ({
   listarSedes: async (page: number) => {
     set({ loading: true });
     const response = await listarData(page);
+    console.log(' response =',response)
     const { content } = response;
     set((state) => ({ sede: state.sede.concat(content) }));
     set({ loading: false });
