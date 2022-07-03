@@ -123,6 +123,7 @@ const New = (props: { setDrawerVisible: any }) => {
           layout="vertical"
           autoComplete="off"
           hideRequiredMark
+
         >
           <Form.Item
             name="codigo"

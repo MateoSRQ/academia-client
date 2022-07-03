@@ -14,6 +14,7 @@
 
 .scroller {
     height: calc(100% - 25px) !important;
+    margin-top: 10px;
 }
 
 :global(.ant-drawer-body) {

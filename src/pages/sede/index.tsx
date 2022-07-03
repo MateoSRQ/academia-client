@@ -14,6 +14,7 @@ import {
 import { Tooltip } from "antd";
 import {
   DeleteTwoTone,
+  EditOutlined,
   EditTwoTone,
   ExclamationCircleOutlined,
   FolderAddTwoTone,
@@ -168,7 +169,21 @@ function Component() {
             width: "200px",
           }}
         >
-          <Tooltip title="Editar" style={{ marginRight: "10px" }}>
+
+          <div>
+            <EditTwoTone twoToneColor="#4241a5"
+              style={{ fontSize: "17px" }}
+              onClick={() => handleClick(1)}
+            />
+            &nbsp;&nbsp;&nbsp;
+            <DeleteTwoTone twoToneColor="#4241a5"
+              style={{ fontSize: "17px" }}
+              onClick={() => eliminar(record.id)}
+            />
+          </div>
+
+
+          {/* <Tooltip title="Editar" style={{ marginRight: "10px" }}>
             <Button
               onClick={() => {
                 handleClick(1);
@@ -197,7 +212,7 @@ function Component() {
                 />
               }
             />
-          </Tooltip>
+          </Tooltip> */}
         </div>
       ),
     },
@@ -248,7 +263,6 @@ function Component() {
     switch (button) {
       case 1:
         setDrawerVisible(false);
-
         break;
       default:
         break;
@@ -279,15 +293,13 @@ function Component() {
         <Row>
           <Col span={16}>
             <div className={style.header2}>Listado de Sedes</div>
+
             <div className={style.header3}>
-              Listado del número 501 al 599, activos únicamente
+              Listado de información : 01 al{" "}
+              {sede.length > 9
+                ? sede.length
+                : "0" + sede.length}
             </div>
-            {/* <div className={style.header3}>
-                            Listado de información : 01 al{" "}
-                            {data.length > 9
-                                ? data.length
-                                : "0" + data.length}
-                        </div> */}
           </Col>
           <Col span={8} style={{ textAlign: "right" }}>
             <Search
@@ -320,6 +332,7 @@ function Component() {
                   <div
                     style={{ height: "10000px", width: "calc(100% - 20px)" }}
                   >
+
                     <Table
                       data={sede}
                       columns={columns}
@@ -327,6 +340,7 @@ function Component() {
                         pageSize: 10,
                       }}
                     ></Table>
+
                   </div>
                 </Scrollbar>
               </div>
