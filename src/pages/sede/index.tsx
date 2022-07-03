@@ -1,76 +1,29 @@
 import { useState, useRef, useEffect } from "react";
-import {
-  Drawer,
-  Button,
-  Space,
-  Col,
-  Row,
-  Tag,
-  message,
-  Modal,
-  Spin,
-  Alert,
-} from "antd";
-import { Tooltip } from "antd";
-import {
-  DeleteTwoTone,
-  EditOutlined,
-  EditTwoTone,
-  ExclamationCircleOutlined,
-  FolderAddTwoTone,
-} from "@ant-design/icons";
+import { Drawer, Button, Space, Col } from "antd";
+import { Row, Tag, message, Modal, Spin } from "antd";
+import { DeleteTwoTone, EditTwoTone } from "@ant-design/icons";
+import { ExclamationCircleOutlined, FolderAddTwoTone } from "@ant-design/icons";
 import { Breadcrumb } from "antd";
 import style from "./index.module.css";
 import "antd/dist/antd.css";
-import { Tabs, Radio } from "antd";
+import { Tabs } from "antd";
 import { Input } from "antd";
-import Scrollbar from "react-custom-scrollbars";
-import axios from "axios";
 import Table from "../../components/table";
 import New from "./new";
-import { useSedeStore, locationStore } from "../../store/sede";
-import { SizeType } from "antd/lib/config-provider/SizeContext";
+import { useSedeStore } from "../../store/sede";
 
 const { Search } = Input;
 const { TabPane } = Tabs;
 
-function Component() {
-  const ref = useRef<HTMLDivElement>();
-  const [dimensions, setDimensions] = useState({
-    x: 0,
-    y: 0,
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 0,
-    width: 0,
-  });
-  const [drawerVisible, setDrawerVisible] = useState(false);
-
-  const [sedeEditada, setSedeEditada] = useState({
-    estado: false,
-    datos: {
-      id: 0,
-      codigo: "",
-      nombre: "",
-      tipo: 0,
-      idUbigeo: 0,
-      telefono: "",
-      direccion: "",
-      latitud: "",
-      longitud: "",
-      correo: "",
-      estadoAuditoria: true,
-    },
-  });
-
-  const [dataSede, setDataSede] = useState<any[]>([]);
-
-  const [size, setSize] = useState<SizeType>("large");
+function Sede() {
   const { sede, listarSedes, loading, eliminarSede } = useSedeStore();
-
-  // const alumnos = useStore((state) => state.alumnos)
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [typeEdit, setTypeEdit] = useState(false);
+  const [dataEdit, setDataEdit] = useState();
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+  });
 
   const columns = [
     {
@@ -169,50 +122,16 @@ function Component() {
             width: "200px",
           }}
         >
-
-          <div>
-            <EditTwoTone twoToneColor="#4241a5"
-              style={{ fontSize: "17px" }}
-              onClick={() => handleClick(1)}
-            />
-            &nbsp;&nbsp;&nbsp;
-            <DeleteTwoTone twoToneColor="#4241a5"
-              style={{ fontSize: "17px" }}
-              onClick={() => eliminar(record.id)}
-            />
-          </div>
-
-
-          {/* <Tooltip title="Editar" style={{ marginRight: "10px" }}>
-            <Button
-              onClick={() => {
-                handleClick(1);
-              }}
-              type="default"
-              shape="circle"
-              icon={
-                <EditTwoTone
-                  twoToneColor="#4241a5"
-                  style={{ fontSize: "26px" }}
-                />
-              }
-            />
-          </Tooltip>
-          <Tooltip title="Eliminar">
-            <Button
-              onClick={() => {
-                eliminar(record.id);
-              }}
-              type="default"
-              shape="circle"
-              icon={
-                <DeleteTwoTone
-                  twoToneColor="#4241a5"
-                  style={{ fontSize: "26px" }}
-                />
-              }
-            />
-          </Tooltip> */}
+          <EditTwoTone
+            twoToneColor="#4241a5"
+            style={{ fontSize: "17px" }}
+            onClick={() => goToEdit(record)}
+          />
+          <DeleteTwoTone
+            twoToneColor="#4241a5"
+            style={{ fontSize: "17px" }}
+            onClick={() => eliminar(record.id)}
+          />
         </div>
       ),
     },
@@ -220,20 +139,23 @@ function Component() {
 
   useEffect(() => {
     listarSedes(0);
-    if (ref && ref.current) {
-      setDimensions(ref.current.getBoundingClientRect().toJSON());
-    }
   }, []);
 
-  const handleClick = (button: number) => {
-    switch (button) {
-      case 1:
-        setDrawerVisible(true);
-        break;
-      default:
-        break;
-    }
+  const goToEdit = (data: any) => {
+    setTypeEdit(true);
+    setDataEdit(data);
+    setDrawerVisible(true);
   };
+
+  const goToCreate = () => {
+    setTypeEdit(false);
+    setDrawerVisible(true);
+  };
+  const handleTableChange = (pagination) => {
+    // listarSedes(pagination);
+    console.log("hola", pagination);
+  };
+
   const eliminar = (id: number) => {
     Modal.confirm({
       title: "Eliminar información",
@@ -242,7 +164,6 @@ function Component() {
       okText: "Aceptar",
       cancelText: "Cerrar",
       onOk: async () => {
-
         try {
           const response = await eliminarSede(id);
           const { resultado, mensaje } = response.data;
@@ -254,12 +175,12 @@ function Component() {
         } catch (error) {
           message.error("Ocurrió un error, por favor intente nuevamente");
         }
-
       },
     });
   };
 
   const handleClose = (button: number) => {
+    setDrawerVisible(false);
     switch (button) {
       case 1:
         setDrawerVisible(false);
@@ -268,8 +189,9 @@ function Component() {
         break;
     }
   };
+
   return (
-    <div className={style.component} ref={ref}>
+    <div className={style.component}>
       <div>
         <div className={style.header1}>
           <Row>
@@ -285,7 +207,6 @@ function Component() {
               </div>
             </Col>
             <Col span={12}>
-              {/*<div className={style.username}>Bienvenido, Mateo!</div>*/}
               <Button>Bienvenido, Mateo!</Button>
             </Col>
           </Row>
@@ -296,9 +217,7 @@ function Component() {
 
             <div className={style.header3}>
               Listado de información : 01 al{" "}
-              {sede.length > 9
-                ? sede.length
-                : "0" + sede.length}
+              {sede.length > 9 ? sede.length : "0" + sede.length}
             </div>
           </Col>
           <Col span={8} style={{ textAlign: "right" }}>
@@ -323,26 +242,18 @@ function Component() {
               <div
                 style={{ width: "calc(100% - 150px)", position: "relative" }}
               >
-                <Scrollbar
-                  style={{
-                    height: dimensions.height - 256 + "px",
-                    outline: "1px solid white",
-                  }}
-                >
-                  <div
-                    style={{ height: "10000px", width: "calc(100% - 20px)" }}
-                  >
-
-                    <Table
-                      data={sede}
-                      columns={columns}
-                      pagination={{
-                        pageSize: 10,
-                      }}
-                    ></Table>
-
-                  </div>
-                </Scrollbar>
+                <div style={{ height: "10000px", width: "calc(100% - 20px)" }}>
+                  <Table
+                    data={sede}
+                    columns={columns}
+                    pagination={{
+                      current: 2,
+                      pageSize: 10,
+                    }}
+                    onChange={handleTableChange}
+                    // loading={loading}
+                  ></Table>
+                </div>
               </div>
               <Space
                 className={style.rightBar}
@@ -352,7 +263,7 @@ function Component() {
                 <Button
                   block
                   onClick={() => {
-                    handleClick(1);
+                    goToCreate();
                   }}
                 >
                   <FolderAddTwoTone
@@ -361,24 +272,27 @@ function Component() {
                   />
                 </Button>
               </Space>
-              <Drawer
-                title="Crear nueva sede"
-                width={450}
-                visible={drawerVisible}
-                onClose={() => {
-                  handleClose(1);
-                }}
-                style={{ position: "absolute" }}
-                closable={false}
-              >
-                <New setDrawerVisible={setDrawerVisible} />
-              </Drawer>
             </div>
           </TabPane>
         </Tabs>
       )}
+      <Drawer
+        title={typeEdit ? "Editar sede" : "Registrar sede"}
+        width={450}
+        visible={drawerVisible}
+        onClose={() => {
+          handleClose(1);
+        }}
+        closable={true}
+      >
+        <New
+          setDrawerVisible={setDrawerVisible}
+          typeEdit={typeEdit}
+          data={dataEdit}
+        />
+      </Drawer>
     </div>
   );
 }
 
-export default Component;
+export default Sede;

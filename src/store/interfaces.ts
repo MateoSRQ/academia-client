@@ -7,8 +7,10 @@ export interface Sede {
 
 export interface SedeStore {
   loading: boolean;
+  page: number;
   sede: Sede[];
   listarSedes: (page: number) => {};
+  setPagination: () => {};
   guardarSede: (payload: any) => {};
   eliminarSede: (id: number) => {};
   actualizarSede: (payload: any) => {};
@@ -28,8 +30,8 @@ export interface LocationStore {
   provincias: Departamento[];
   distritos: Departamento[];
   listarDeparment: () => {};
-  listarProvincias: (departamento: number) => {};
-  listarDistritos: (departamento: number, provincia: number) => {};
+  listarProvincias: (departamento: string) => {};
+  listarDistritos: (departamento: string, provincia: string) => {};
 }
 
 export interface SedeSave {

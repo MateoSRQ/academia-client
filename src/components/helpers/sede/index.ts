@@ -35,7 +35,7 @@ export const actualizarData = async (payload: any) => {
   const url = `https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/sede/${payload.id}`;
   try {
     const response = await axios.put(url, payload);
-    return response;
+    return response.data;
   } catch (error) {
     return error;
   }
@@ -51,7 +51,7 @@ export const listarDepartamento = async () => {
   }
 };
 
-export const listarProvincia = async (payload: number) => {
+export const listarProvincia = async (payload: string) => {
   const url = `https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/ubigeo?estadoAuditoria=true&distrito=00&departamento=${payload}`;
   try {
     const response = await axios.get(url);
@@ -62,8 +62,8 @@ export const listarProvincia = async (payload: number) => {
 };
 
 export const listarDistrito = async (
-  departamento: number,
-  provincia: number
+  departamento: string,
+  provincia: string
 ) => {
   const url = `https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/ubigeo?estadoAuditoria=true&provincia=${provincia}&departamento=${departamento}`;
   try {

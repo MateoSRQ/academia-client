@@ -1,81 +1,69 @@
-import { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button, Form, Select, message } from "antd";
 import style from "./index.module.css";
 import "antd/dist/antd.css";
-import { Tabs, Radio } from "antd";
 import { Input } from "antd";
 import Scrollbar from "react-custom-scrollbars";
-import useDimensions from "react-use-dimensions";
 import {
-  UserOutlined,
-  LockOutlined,
-  DownloadOutlined,
   SaveOutlined,
   CloseCircleOutlined,
-  MoreOutlined,
   AuditOutlined,
   FileTextOutlined,
 } from "@ant-design/icons";
-import { SizeType } from "antd/lib/config-provider/SizeContext";
 import { useSedeStore, locationStore } from "../../../store/sede";
-import axios from "axios";
-const { Search } = Input;
-const { TabPane } = Tabs;
+import { propsNew } from "./new.interfaces";
 
 const { Option } = Select;
-const departamento = ["1", "2"];
-const provincia = {
-  1: ["11", "11", "11"],
-  2: ["22", "22", "22"],
-};
-type CityName = keyof typeof provincia;
 
-const New = (props: { setDrawerVisible: any }) => {
-  const [size, setSize] = useState<SizeType>("large");
+const New = (props: propsNew) => {
+  //Props
+  const { setDrawerVisible, typeEdit, data } = props;
+  //Stores
   const { departamentos, provincias, distritos } = locationStore();
   const { listarDeparment, listarProvincias, listarDistritos } =
     locationStore();
-  const { setDrawerVisible } = props;
-  const [deparment, setDeparment] = useState(0);
-  const [distrito, setDistrito] = useState(0);
-  const [sedeEditada, setSedeEditada] = useState({
-    datos: {
-      id: 0,
-      codigo: "",
-      nombre: "",
-      tipo: 0,
-      idUbigeo: 0,
-      telefono: "",
-      direccion: "",
-      latitud: "",
-      longitud: "",
-      correo: "",
-      estadoAuditoria: true,
-    },
-  });
-
-  const { sede, guardarSede, actualizarSede } = useSedeStore();
+  const { guardarSede, actualizarSede } = useSedeStore();
+  //Estados locales
+  const [deparment, setDeparment] = useState("");
+  const [provincia, setProvincia] = useState("");
+  const [distrito, setDistrito] = useState("");
   const [form] = Form.useForm();
-
   useEffect(() => {
     listarDeparment();
-  }, []);
+    form.resetFields();
+    setDeparment("");
+    setProvincia("");
+    setDistrito("");
+    if (typeEdit && data) {
+      form.setFieldsValue({
+        codigo: data.codigo,
+        nombre: data.nombre,
+        direccion: data.direccion,
+        latitud: data.latitud,
+        longitud: data.longitud,
+        estadoAuditoria: data.estadoAuditoria,
+      });
+      setDeparment(data.ubigeo.departamento);
+      listarProvincias(data.ubigeo.departamento);
+      setProvincia(data.ubigeo.provincia);
+      listarDistritos(data.ubigeo.departamento, data.ubigeo.provincia);
+      setDistrito(data.ubigeo.id);
+    }
+  }, [typeEdit, data]);
 
-  const [cities, setCities] = useState(provincia[departamento[0] as CityName]);
-  const [secondCity, setSecondCity] = useState(
-    provincia[departamento[0] as CityName][0]
-  );
-
-  const changeDepartament = (value: number) => {
+  const changeDepartament = (value: string) => {
     listarProvincias(value);
     setDeparment(value);
+    setDistrito("");
+    setProvincia("");
   };
 
-  const changeProvincia = (value: number) => {
+  const changeProvincia = (value: string) => {
+    setProvincia(value);
     listarDistritos(deparment, value);
   };
 
-  const changeDistrito = (value: number) => {
+  const changeDistrito = (value: string) => {
     setDistrito(value);
   };
 
@@ -93,13 +81,27 @@ const New = (props: { setDrawerVisible: any }) => {
       correo: "",
       estadoAuditoria: values.estadoAuditoria,
     };
+    if (typeEdit) {
+      dataSave.id = data.id;
+      dataSave.ubigeo = {
+        id: 0,
+        departamento: "string",
+        provincia: "string",
+        distrito: "string",
+      };
+    }
     try {
-      const response = await guardarSede(dataSave);
+      const response = typeEdit
+        ? await actualizarSede(dataSave)
+        : await guardarSede(dataSave);
       const { resultado, mensaje } = response;
       if (resultado === 1) {
         message.success(mensaje);
         setDrawerVisible(false);
         form.resetFields();
+        setDeparment("");
+        setDistrito("");
+        setProvincia("");
       } else {
         message.error(mensaje);
       }
@@ -123,7 +125,6 @@ const New = (props: { setDrawerVisible: any }) => {
           layout="vertical"
           autoComplete="off"
           hideRequiredMark
-
         >
           <Form.Item
             name="codigo"
@@ -156,7 +157,7 @@ const New = (props: { setDrawerVisible: any }) => {
             />
           </Form.Item>
           <Form.Item label="Departamento">
-            <Select onChange={changeDepartament}>
+            <Select onChange={changeDepartament} value={deparment}>
               {departamentos.map((departamento) => (
                 <Option key={departamento.id} value={departamento.departamento}>
                   {departamento.localidad}
@@ -164,9 +165,8 @@ const New = (props: { setDrawerVisible: any }) => {
               ))}
             </Select>
           </Form.Item>
-
           <Form.Item label="Provincia">
-            <Select onChange={changeProvincia}>
+            <Select onChange={changeProvincia} value={provincia}>
               {provincias.map((provincia) => (
                 <Option key={provincia.id} value={provincia.provincia}>
                   {provincia.localidad}
@@ -176,7 +176,7 @@ const New = (props: { setDrawerVisible: any }) => {
           </Form.Item>
 
           <Form.Item label="Distrito">
-            <Select onChange={changeDistrito}>
+            <Select onChange={changeDistrito} value={distrito}>
               {distritos.map((distrito) => (
                 <Option key={distrito.id} value={distrito.id}>
                   {distrito.localidad}
@@ -253,7 +253,7 @@ const New = (props: { setDrawerVisible: any }) => {
             </Select>
           </Form.Item>
 
-          <Form.Item>
+          <div className={style.containerButton}>
             <Button
               icon={<CloseCircleOutlined />}
               onClick={() => setDrawerVisible(false)}
@@ -261,9 +261,9 @@ const New = (props: { setDrawerVisible: any }) => {
               Cancelar
             </Button>
             <Button icon={<SaveOutlined />} type="primary" htmlType="submit">
-              Registrar
+              Guardar
             </Button>
-          </Form.Item>
+          </div>
         </Form>
       </Scrollbar>
     </div>
