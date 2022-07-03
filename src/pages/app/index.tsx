@@ -1,13 +1,9 @@
-import { useState, useRef, useEffect } from 'react'
-import { Drawer, Button } from 'antd';
+import { useState } from 'react'
 import style from './index.module.css'
 import 'antd/dist/antd.css'
 import  {motion} from 'framer-motion'
 import Menu from '../../components/menu'
 import Facultad from '../../pages/facultad'
-
-import Page from '../page'
-import {AppstoreOutlined, MailOutlined, SettingOutlined} from "@ant-design/icons";
 
 function Component() {
     const [menuVisible, setMenuVisible] = useState(false)
@@ -56,7 +52,6 @@ function Component() {
         },
 
     ];
-
 
     return (
         <div className={style.component}>

@@ -30,7 +30,6 @@
     letter-spacing: -.5px;
     margin-top: 4px;
     margin-bottom: 6px;
-    padding-left:  15px;
 }
 
 .header2 span {
@@ -48,8 +47,7 @@
     font-weight: 400;
     color: #6a6a6c !important;
     letter-spacing: -.2px;
-    margin-top: -5px;
-    padding-left:  16px;
+    margin-top: -5px;    
 }
 
 
@@ -104,19 +102,19 @@
 
 .container {
     position: relative;
-    height: 47em;
+    height: 38em;    
     display: flex;
     align-items: self-end;
     flex-direction: column;
     justify-content: center;
     width: calc(100% - 50px);
-    padding-right: 3em;
+    
 }
 
-.containerChild {
-    padding-bottom: 0.7em;
+.childContainer {    
     display: flex;
     flex-direction: row;
+    margin-bottom: 0.4em;
 }
 
 .addIcon {
@@ -124,4 +122,23 @@
     margin: auto 0;
     color: #70b4fc;
     transform: translateY(-6%);
+}
+
+.date {
+    text-align: right;
+    margin-top: 0.3em;
+    margin-right: 0.5em;
+}
+
+.tableIcon {
+    font-size: 17px;
+    color: #70b4fc;
+}
+
+.loading {
+    width: 100%;
+    height: 25em;
+    display: flex;
+    align-items : center;
+    justify-content : center;
 }

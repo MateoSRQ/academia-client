@@ -7,13 +7,13 @@ axios.interceptors.request.use( x => {
 })
 
 axios.interceptors.response.use( x => {
-//console.log(`Tiempo de ejecución: ${x.config.method} - ${ (new Date().getTime() - x.config.meta.requestStartedAt) / 1000 } seg`)
-    x.responseTime = (new Date().getTime() - x.config.meta.requestStartedAt) / 1000 
+    const time = (new Date().getTime() - x.config.meta.requestStartedAt) / 1000 
+    x.responseTime = time.toFixed(2)
         return x;
 })
 
 export const fetchData = async () => {
-    const url = 'https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/facultad'
+    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad`    
     try {
         const response = await axios.get(url)
         return response
@@ -23,7 +23,7 @@ export const fetchData = async () => {
 }
 
 export const saveData = async (payload : any) => {
-    const url = 'https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/facultad/add'
+    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/add`  
     try {
         const response = await axios.post(url,payload)
         return response
@@ -33,7 +33,7 @@ export const saveData = async (payload : any) => {
 }
 
 export const deleteData = async (id : number) => {
-    const url =`https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/facultad/${id}/remove`
+    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/${id}/remove`
     try {
         const response = await axios.delete(url)
         return response
@@ -43,7 +43,7 @@ export const deleteData = async (id : number) => {
 }
 
 export const updateData = async (payload : any) => {
-    const url =`https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/facultad/${payload.id}`
+    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/${payload.id}`
     try {
         const response = await axios.put(url,payload)
         return response

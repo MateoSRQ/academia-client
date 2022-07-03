@@ -33,8 +33,10 @@ function Component( props: any ) {
             <Table
                 columns={props.columns}
                 dataSource={props.data}
-                size="small"
+                size="middle"
+                footer={props.responseTime}            
                 pagination={props.pagination}
+                rowKey='id'
             />
         </div>
     )

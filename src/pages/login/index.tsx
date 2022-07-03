@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect } from 'react'
-import {Drawer, Button, Form, Input, Checkbox} from 'antd';
+import { Button, Form, Input } from 'antd';
 import style from './index.module.css'
 import { useNavigate } from "react-router-dom";
+import { useUsuarioStore } from '../../store/usuario';
 import 'animate.css';
 
 
@@ -9,8 +9,15 @@ import 'antd/dist/antd.css'
 
 function Component() {
     let navigate = useNavigate();
+    const { autenticarUsuario } = useUsuarioStore()
+
     const handleOnFinish = (e: any) => {
-        if (e.username == 'user' && e.password == 'password') {
+        if (e.password == 'password') {
+            const payload = {
+                username : e.username,
+                ruta : "../app"
+            }
+            autenticarUsuario(payload)
             navigate("../app", { replace: true });
         }
         else {

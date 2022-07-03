@@ -6,34 +6,37 @@ import {
     Col,
     Row,
     //Pagination,
-    Form,
     Modal,
-    Radio,
     Input,
     message,
+    Tabs,
+    Tag,
+    FormInstance,
+    Spin,
 } from "antd"
 import style from "../facultad/index.module.css"
 import "antd/dist/antd.css"
 import Table from "../../components/table"
 import {
-    CheckCircleOutlined,
-    CloseCircleOutlined,
     DeleteOutlined,
     EditOutlined,
     ExclamationCircleOutlined,
-    FileTextOutlined,
     PlusSquareOutlined,
 } from "@ant-design/icons"
 
-import { useFacultadStore } from "../../store"
+import { useFacultadStore } from "../../store/facultad"
 import { useNavigate } from "react-router"
+import Form from "../facultad/form"
+import { useUsuarioStore } from "../../store/usuario"
 const { Search } = Input
+const { TabPane } = Tabs
 
 function Component() {
-    const ref = useRef<HTMLDivElement>()
+    const navigate = useNavigate()
+    const formRef = useRef<FormInstance>()
     const [drawerVisible, setDrawerVisible] = useState(false)
     const [responseTime, setResponseTime] = useState(0)
-    const [facultadEditada, setFacultadEditada] = useState({
+    const initialState = {
         estado: false,
         datos: {
             id: 0,
@@ -41,20 +44,15 @@ function Component() {
             nombre: "",
             abreviatura: "",
         },
-    })
-    const {
-        facultad,
-        listarFacultad,
-        guardarFacultad,
-        actualizarFacultad,
-        eliminarFacultad,
-    } = useFacultadStore()
+    }
+    const [facultadEditada, setFacultadEditada] = useState(initialState)
+    const { facultad, listarFacultad, eliminarFacultad } = useFacultadStore()
+    const { usuario } = useUsuarioStore()
 
     const handleEdit = (e: any) => {
         handleClick(2)
         setFacultadEditada((state) => ({ ...state, datos: e }))
     }
-    let navigate = useNavigate()
 
     const columns = [
         {
@@ -92,7 +90,7 @@ function Component() {
         {
             title: "Facultad",
             //key:"nombre",
-            width: 300,
+            width: 350,
             render: (_, record) => (
                 <div
                     style={{
@@ -120,9 +118,9 @@ function Component() {
                     {record.abreviatura}
                 </div>
             ),
-        },       
+        },
         {
-            title: "Estado",          
+            title: "Estado",
             width: 200,
             render: (_, record) => (
                 <div
@@ -133,33 +131,34 @@ function Component() {
                     }}
                 >
                     {record.estadoAuditoria ? (
-                        <CheckCircleOutlined style={{ color: "green" }} />
+                        <Tag color={"green"}>{"Activo"}</Tag>
                     ) : (
-                        <CloseCircleOutlined style={{ color: "red" }} />
+                        <Tag color={"red"}>{"Inactivo"}</Tag>
                     )}
                 </div>
             ),
-        },       
+        },
         {
             title: "Acción",
-            width: 200,
+            width: 150,
             render: (_, record) => (
                 <div
                     style={{
                         wordWrap: "break-word",
                         wordBreak: "break-word",
                         width: "50px",
+                        textAlign: "center",
                     }}
                 >
                     {
                         <div>
                             <EditOutlined
-                                style={{ fontSize: "17px", color: "#70b4fc" }}
+                                className={style.tableIcon}
                                 onClick={() => handleEdit(record)}
                             />
                             &nbsp;&nbsp;&nbsp;
                             <DeleteOutlined
-                                style={{ fontSize: "17px", color: "#70b4fc" }}
+                                className={style.tableIcon}
                                 onClick={() => confirm(record.id)}
                             />
                         </div>
@@ -168,11 +167,6 @@ function Component() {
             ),
         },
     ]
-
-    useEffect(async () => {
-        const response = await listarFacultad()
-        setResponseTime(response.responseTime)
-    }, [])
 
     const handleClick = (button: number) => {
         setDrawerVisible(true)
@@ -192,6 +186,8 @@ function Component() {
         switch (button) {
             case 1:
                 setDrawerVisible(false)
+                formRef.current?.resetFields()
+                //setFacultadEditada(initialState)
                 break
             default:
                 break
@@ -209,7 +205,8 @@ function Component() {
                 const response = await eliminarFacultad(id)
                 const { resultado, mensaje } = response.data
                 if (resultado === 1) {
-                    success(mensaje)
+                    setResponseTime(response.responseTime)
+                    message.success(mensaje)
                 } else {
                     message.error(mensaje)
                 }
@@ -217,143 +214,42 @@ function Component() {
         })
     }
 
-    const success = (mensaje: string) => {
-        message.success(mensaje)
-    }
-
-    const FacultadForm = (props: any) => {
-        const {
-            facultadEditada: { estado, datos },
-        } = props
-        const [form] = Form.useForm()
-        useEffect(() => {
-            estado && form.setFieldsValue(datos)
-        }, [])
-
-        const handleFinish = async (e: any) => {
-            if (estado) {
-                const response = await actualizarFacultad(e)
-                const { resultado, mensaje } = response.data
-                if (resultado === 1) {
-                    success(mensaje)
-                } else {
-                    message.error(mensaje)
-                }
-            } else {
-                const response = await guardarFacultad(e)
-                const { resultado, mensaje } = response.data
-                if (resultado === 1) {
-                    success(mensaje)
-                } else {
-                    message.error(mensaje)
-                }
-            }
-            setDrawerVisible(false)
+    const Topbar = () => {
+        const Fecha = () => {
+            const fechaActual = new Date()
+            const dias = [
+                "Domingo",
+                "Lunes",
+                "Martes",
+                "Miercoles",
+                "Jueves",
+                "Viernes",
+                "Sábado",
+            ]
+            const meses = [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Setiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre",
+            ]
+            return (
+                <h5>
+                    {`${dias[fechaActual.getDay()]} ${fechaActual.getDate()} de ${
+                        meses[fechaActual.getMonth()]
+                    } del ${fechaActual.getFullYear()}`}
+                </h5>
+            )
         }
         return (
-            <div>
-                <div>
-                    <h3>{estado ? "Edición" : "Registro"} de Facultad</h3>
-                    <hr />
-                    <p>Favor de ingresar la información solicitada</p>
-                </div>
-                <Form                    
-                    layout="vertical"
-                    onFinish={handleFinish}
-                    form={form}
-                >
-                    <Form.Item label="Id" name="id" hidden>
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Código"
-                        name="codigo"
-                        rules={[{ required: true, message: "Debe ingresar un código" }]}
-                    >
-                        <Input prefix={<FileTextOutlined style={{ marginRight : '0.5em'}} />} />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Nombre de Facultad"
-                        name="nombre"
-                        rules={[{ required: true, message: "Debe ingresar un nombre" }]}
-                    >
-                        <Input prefix={<FileTextOutlined style={{ marginRight : '0.5em'}} />}  />
-                    </Form.Item>
-
-                    <Form.Item
-                        label="Abreviatura"
-                        name="abreviatura"
-                        rules={[
-                            { required: true, message: "Debe ingresar una abreviatura" },
-                        ]}
-                    >
-                        <Input prefix={<FileTextOutlined style={{ marginRight : '0.5em'}} />}  />
-                    </Form.Item>
-                    {/* Probar con radio y combo al mismo tiempo
-                    <Form.Item
-                        label="Estado"
-                        name="estado"
-                        rules={[{ required: true, message: "Debe escoger el estado" }]}
-                    >
-                        <Radio.Group>
-                            <Radio value={1}>Activo</Radio>
-                            <Radio value={0}>Inactivo</Radio>
-                        </Radio.Group>
-                    </Form.Item>
-                    */}
-                    <Form.Item>
-                        <Button size="large" type="primary" htmlType="submit" block>
-                            {estado ? "Actualizar" : "Registrar"}
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </div>
-        )
-    }
-
-    const Fecha = () => {
-        const fechaActual = new Date()
-        const dias = [
-            "Domingo",
-            "Lunes",
-            "Martes",
-            "Miercoles",
-            "Jueves",
-            "Viernes",
-            "Sábado",
-        ]
-        const meses = [
-            "Enero",
-            "Febrero",
-            "Marzo",
-            "Abril",
-            "Mayo",
-            "Junio",
-            "Julio",
-            "Agosto",
-            "Setiembre",
-            "Octubre",
-            "Noviembre",
-            "Diciembre",
-        ]
-        return (
-            <h5>
-                {dias[fechaActual.getDay()] +
-                    " " +
-                    fechaActual.getDate() +
-                    " de " +
-                    meses[fechaActual.getMonth()] +
-                    " del " +
-                    fechaActual.getFullYear()}
-            </h5>
-        )
-    }
-
-    // @ts-ignore
-    return (
-        <div className={style.component} ref={ref}>
-            <div>
+            <>
                 <div className={style.header1}>
                     <Row>
                         <Col span={12}>
@@ -372,23 +268,48 @@ function Component() {
                             <Button
                                 onClick={() => navigate("../login", { replace: true })}
                             >
-                                Bienvenido, usuario!
+                                Bienvenido, {usuario.nombre}!
                             </Button>
                         </Col>
                     </Row>
                 </div>
+                <div className={style.date}>
+                    <Fecha />
+                </div>
+            </>
+        )
+    }
 
+    const tableFooter = () => {
+        const date = new Date()
+        const hours = date.getHours() > 12 ? date.getHours() % 12 : date.getHours()
+        const minutes = date.getMinutes()
+        const period = date.getHours() > 12 ? "PM" : "AM"
+        const time = `${hours < 9 ? "0" + hours : hours}:${
+            minutes < 9 ? "0" + minutes : minutes
+        } ${period} `
+        return (
+            <h5 style={{ textAlign: "right" }}>              
+                    { `${time} - ${responseTime} seg. en respuesta`}
+            </h5>
+        )
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await listarFacultad()
+            setResponseTime(response.responseTime)
+        }
+        fetchData()
+    }, [])
+
+    // @ts-ignore
+    return (
+        <div className={style.component}>
+            <div>
+                <Topbar />
                 <Row>
                     <Col span={24}>
-                        <div
-                            style={{
-                                textAlign: "right",
-                                marginRight: "0.5em",
-                                marginTop: "0.4m",
-                            }}
-                        >
-                            <Fecha />
-                        </div>
                         <div className={style.header2}>Listado de Facultades</div>
                         <div className={style.header3}>
                             Listado de información : 01 al{" "}
@@ -399,43 +320,55 @@ function Component() {
                     </Col>
                 </Row>
             </div>
-            <div>
-                <div className={style.container}>
-                    <div
-                        className={style.containerChild}
-                        //style={{ outline: "1px solid red" }}
+
+            <Tabs className={style.tabs}>
+                <TabPane tab="Bandeja de información" key="1" className={style.tab}>
+                <div className={style.container} >
+                    {!facultad.length ? (
+                        <div className={style.loading}>
+                        <Spin size="large" tip="Cargando..." />
+                        </div>
+                    ) : (
+                       <>
+                            <div className={style.childContainer}>
+                                <Col>
+                                    <Search
+                                        placeholder="buscar..."
+                                        enterButton="Buscar"
+                                        size="middle"
+                                        //onChange={handleChange}
+                                    />
+                                </Col>
+                                <PlusSquareOutlined
+                                    onClick={() => handleClick(1)}
+                                    className={style.addIcon}
+                                />
+                            </div>
+                            <div style={{ width: "calc(100% - 30px)" }}>
+                                <Table
+                                    data={facultad}
+                                    columns={columns}
+                                    responseTime={tableFooter}
+                                    //pagination={{ pageSize: 100, pageSizeOptions: ['10', '50', '100']}}
+                                ></Table>
+                            </div>
+                        </>
+                    )}
+                    </div>
+                    <Drawer
+                        visible={drawerVisible}
+                        onClose={() => handleClose(1)}
+                        closable={false}
                     >
-                        <Col>
-                            <Search
-                                placeholder="input search text..."
-                                enterButton="Buscar"
-                                size="middle"
-                                //onChange={handleChange}
-                            />
-                        </Col>
-                        <PlusSquareOutlined
-                            onClick={() => handleClick(1)}
-                            className={style.addIcon}
+                        <Form
+                            setResponseTime={setResponseTime}
+                            facultadEditada={facultadEditada}
+                            handleClose={handleClose}
+                            formRef={formRef}
                         />
-                    </div>
-                    <div style={{ width: "calc(100% - 30px)" }}>
-                        <Table
-                            data={facultad}
-                            columns={columns}
-                            //pagination={{ pageSize: 100, pageSizeOptions: ['10', '50', '100']}}
-                        ></Table>
-                        <h5 style={{textAlign : 'right'}}>{ responseTime } seg. en respuesta</h5>
-                    </div>
-                </div>
-                <Drawer
-                    visible={drawerVisible}
-                    // getContainer={false}
-                    onClose={() => handleClose(1)}
-                    closable={false}
-                >
-                    <FacultadForm facultadEditada={facultadEditada} />
-                </Drawer>
-            </div>
+                    </Drawer>
+                </TabPane>
+            </Tabs>
         </div>
     )
 }
