@@ -1,17 +1,16 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useEffect } from "react"
 import {
     Drawer,
     Button,
     Breadcrumb,
     Col,
     Row,
-    //Pagination,
+    Form,
     Modal,
     Input,
     message,
     Tabs,
-    Tag,
-    FormInstance,
+    Tag,    
     Spin,
 } from "antd"
 import style from "../facultad/index.module.css"
@@ -23,19 +22,16 @@ import {
     ExclamationCircleOutlined,
     PlusSquareOutlined,
 } from "@ant-design/icons"
-
 import { useFacultadStore } from "../../store/facultad"
 import { useNavigate } from "react-router"
-import Form from "../facultad/form"
+import New from "../../pages/facultad/new"
 import { useUsuarioStore } from "../../store/usuario"
 const { Search } = Input
 const { TabPane } = Tabs
 
 function Component() {
     const navigate = useNavigate()
-    const formRef = useRef<FormInstance>()
     const [drawerVisible, setDrawerVisible] = useState(false)
-    const [responseTime, setResponseTime] = useState(0)
     const initialState = {
         estado: false,
         datos: {
@@ -46,8 +42,10 @@ function Component() {
         },
     }
     const [facultadEditada, setFacultadEditada] = useState(initialState)
-    const { facultad, listarFacultad, eliminarFacultad } = useFacultadStore()
-    const { usuario } = useUsuarioStore()
+    const { facultad, listaFiltrada, responseTime, listarFacultad, eliminarFacultad, filtrarFacultad, cargarLista } =
+        useFacultadStore()
+    const { username } = useUsuarioStore()
+    const [ form ] = Form.useForm()  
 
     const handleEdit = (e: any) => {
         handleClick(2)
@@ -186,7 +184,7 @@ function Component() {
         switch (button) {
             case 1:
                 setDrawerVisible(false)
-                formRef.current?.resetFields()
+                form.resetFields()
                 //setFacultadEditada(initialState)
                 break
             default:
@@ -205,7 +203,7 @@ function Component() {
                 const response = await eliminarFacultad(id)
                 const { resultado, mensaje } = response.data
                 if (resultado === 1) {
-                    setResponseTime(response.responseTime)
+                    cargarLista()
                     message.success(mensaje)
                 } else {
                     message.error(mensaje)
@@ -268,7 +266,7 @@ function Component() {
                             <Button
                                 onClick={() => navigate("../login", { replace: true })}
                             >
-                                Bienvenido, {usuario.nombre}!
+                                Bienvenido, {username}!
                             </Button>
                         </Col>
                     </Row>
@@ -289,18 +287,22 @@ function Component() {
             minutes < 9 ? "0" + minutes : minutes
         } ${period} `
         return (
-            <h5 style={{ textAlign: "right" }}>              
-                    { `${time} - ${responseTime} seg. en respuesta`}
+            <h5 style={{ textAlign: "right" }}>
+                {`${time} - ${responseTime} seg. en respuesta`}
             </h5>
         )
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await listarFacultad()
-            setResponseTime(response.responseTime)
+    const handleSearch = (e: string) => {        
+        if (e === "") {
+            cargarLista()
+        } else {
+            filtrarFacultad(e)
         }
-        fetchData()
+    }
+
+    useEffect(() => {
+        listarFacultad()
     }, [])
 
     // @ts-ignore
@@ -323,52 +325,55 @@ function Component() {
 
             <Tabs className={style.tabs}>
                 <TabPane tab="Bandeja de información" key="1" className={style.tab}>
-                <div className={style.container} >
-                    {!facultad.length ? (
-                        <div className={style.loading}>
-                        <Spin size="large" tip="Cargando..." />
-                        </div>
-                    ) : (
-                       <>
-                            <div className={style.childContainer}>
-                                <Col>
-                                    <Search
-                                        placeholder="buscar..."
-                                        enterButton="Buscar"
-                                        size="middle"
-                                        //onChange={handleChange}
+                    <div className={style.container}>
+                        {!facultad.length ? (
+                            <div className={style.loading}>
+                                <Spin size="large" tip="Cargando..." />
+                            </div>
+                        ) : (
+                            <>
+                                <div className={style.childContainer}>
+                                    <Col>
+                                        <Search
+                                            placeholder="buscar..."
+                                            enterButton="Buscar"
+                                            size="middle"
+                                            allowClear
+                                            onSearch={handleSearch}
+                                        />
+                                    </Col>
+                                    <PlusSquareOutlined
+                                        onClick={() => handleClick(1)}
+                                        className={style.addIcon}
                                     />
-                                </Col>
-                                <PlusSquareOutlined
-                                    onClick={() => handleClick(1)}
-                                    className={style.addIcon}
-                                />
-                            </div>
-                            <div style={{ width: "calc(100% - 30px)" }}>
-                                <Table
-                                    data={facultad}
-                                    columns={columns}
-                                    responseTime={tableFooter}
-                                    //pagination={{ pageSize: 100, pageSizeOptions: ['10', '50', '100']}}
-                                ></Table>
-                            </div>
-                        </>
-                    )}
+                                </div>
+                                <div style={{ width: "calc(100% - 30px)" }}>
+                                    <Table
+                                        data={listaFiltrada}
+                                        columns={columns}
+                                        footer={tableFooter}
+                                        pagination={{ pageSize: 4}}
+                                    ></Table>
+                                    
+                                </div>
+                            </>
+                        )}
                     </div>
+                    
                     <Drawer
                         visible={drawerVisible}
                         onClose={() => handleClose(1)}
                         closable={false}
                     >
-                        <Form
-                            setResponseTime={setResponseTime}
+                        <New
                             facultadEditada={facultadEditada}
                             handleClose={handleClose}
-                            formRef={formRef}
+                            form={form}
                         />
                     </Drawer>
                 </TabPane>
             </Tabs>
+            
         </div>
     )
 }
