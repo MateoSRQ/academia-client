@@ -20,10 +20,7 @@ function Sede() {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [typeEdit, setTypeEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState();
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 10,
-  });
+
 
   const columns = [
     {
@@ -92,7 +89,7 @@ function Sede() {
     },
     {
       title: "Estado",
-      dataIndex: "estadoAuditoria",
+      dataIndex: "activo",
       width: 350,
       render: (text, record) => (
         <div
@@ -102,7 +99,7 @@ function Sede() {
             width: "150px",
           }}
         >
-          {record.estadoAuditoria ? (
+          {record.activo ? (
             <Tag color={"green"}>{"Activo"}</Tag>
           ) : (
             <Tag color={"red"}>{"Inactivo"}</Tag>
@@ -151,10 +148,7 @@ function Sede() {
     setTypeEdit(false);
     setDrawerVisible(true);
   };
-  const handleTableChange = (pagination) => {
-    // listarSedes(pagination);
-    console.log("hola", pagination);
-  };
+
 
   const eliminar = (id: number) => {
     Modal.confirm({
@@ -226,7 +220,7 @@ function Sede() {
               placeholder="Buscar"
               enterButton="Buscar"
               size="large"
-              loading
+              loading={loading}
             />
           </Col>
         </Row>
@@ -247,11 +241,11 @@ function Sede() {
                     data={sede}
                     columns={columns}
                     pagination={{
-                      current: 2,
-                      pageSize: 10,
+                      total: sede.length,
+                      pageSize: 4,
                     }}
-                    onChange={handleTableChange}
-                    // loading={loading}
+
+                    loading={loading}
                   ></Table>
                 </div>
               </div>
@@ -277,7 +271,7 @@ function Sede() {
         </Tabs>
       )}
       <Drawer
-        title={typeEdit ? "Editar sede" : "Registrar sede"}
+        title={typeEdit ? "Actualización de sede" : "Registro de sede"}
         width={450}
         visible={drawerVisible}
         onClose={() => {

@@ -10,7 +10,6 @@ export interface SedeStore {
   page: number;
   sede: Sede[];
   listarSedes: (page: number) => {};
-  setPagination: () => {};
   guardarSede: (payload: any) => {};
   eliminarSede: (id: number) => {};
   actualizarSede: (payload: any) => {};
@@ -22,7 +21,7 @@ export interface Departamento {
   provincia: string;
   distrito: string;
   localidad: string;
-  estadoAuditoria: boolean;
+  activo: boolean;
 }
 
 export interface LocationStore {
@@ -45,5 +44,5 @@ export interface SedeSave {
   latitud: string;
   longitud: string;
   correo: string;
-  estadoAuditoria: string;
+  activo: string;
 }

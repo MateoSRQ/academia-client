@@ -17,16 +17,12 @@ export const useSedeStore = create<SedeStore>((set) => ({
   listarSedes: async (page: number) => {
     set({ loading: true });
     const response = await listarData(page);
-    console.log("response: ", response);
+    console.log("listarSedes: ", response);
     const { content } = response;
     set((state) => ({ sede: state.sede.concat(content) }));
     set({ loading: false });
   },
-  setPagination: () => {
-    set((state) => ({
-      page: state.page + 1,
-    }));
-  },
+  
   guardarSede: async (payload: SedeSave) => {
     const response = await guardarData(payload);
     set((state) => ({
@@ -36,14 +32,16 @@ export const useSedeStore = create<SedeStore>((set) => ({
   },
   eliminarSede: async (id: number) => {
     const response = await eliminarData(id);
+    // console.log("response eliminar: ", response);
     set((state) => ({
       sede: state.sede.filter((valor) => valor.id !== id),
     }));
     return response;
   },
   actualizarSede: async (payload: any) => {
+    console.log('data de envio :', {  payload });
     const response = await actualizarData(payload);
-    console.log({ response });
+    console.log('actualizar :', {  response });
     set((state) => ({
       sede: state.sede.map((valor) => {
         if (valor.codigo === payload.codigo) {
@@ -54,7 +52,7 @@ export const useSedeStore = create<SedeStore>((set) => ({
             direccion: response.dato.direccion,
             latitud: response.dato.latitud,
             longitud: response.dato.longitud,
-            estadoAuditoria: response.dato.estadoAuditoria,
+            activo: response.dato.activo,
           };
         }
         return valor;
@@ -70,14 +68,17 @@ export const locationStore = create<LocationStore>((set) => ({
   distritos: [],
   listarDeparment: async () => {
     const response = await listarDepartamento();
+    // console.log('response Departamento :', {  response });
     set({ departamentos: response });
   },
   listarProvincias: async (departamento) => {
     const response = await listarProvincia(departamento);
+    // console.log('response provincias :', {  response });
     set({ provincias: response });
   },
   listarDistritos: async (departamento, provincia) => {
     const response = await listarDistrito(departamento, provincia);
+    // console.log('response distritos :', {  response });
     set({ distritos: response });
   },
   limpiarProvDist: () => {

@@ -37,7 +37,7 @@ function Component(props: any) {
         dataSource={props.data}
         size="small"
         pagination={props.pagination}
-        // loading={props.loading}
+        loading={props.loading}
         onChange={props.onChange}
       />
     </div>

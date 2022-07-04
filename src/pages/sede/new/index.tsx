@@ -41,7 +41,7 @@ const New = (props: propsNew) => {
         direccion: data.direccion,
         latitud: data.latitud,
         longitud: data.longitud,
-        estadoAuditoria: data.estadoAuditoria,
+        activo: data.activo,
       });
       setDeparment(data.ubigeo.departamento);
       listarProvincias(data.ubigeo.departamento);
@@ -79,7 +79,7 @@ const New = (props: propsNew) => {
       latitud: values.latitud,
       longitud: values.longitud,
       correo: "",
-      estadoAuditoria: values.estadoAuditoria,
+      activo: values.activo,
     };
     if (typeEdit) {
       dataSave.id = data.id;
@@ -246,7 +246,7 @@ const New = (props: propsNew) => {
             />
           </Form.Item> */}
 
-          <Form.Item label="Estado" name="estadoAuditoria">
+          <Form.Item label="Estado" name="activo">
             <Select>
               <Select.Option value={true}>Activo</Select.Option>
               <Select.Option value={false}>Inactivo</Select.Option>
