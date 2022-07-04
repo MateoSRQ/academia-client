@@ -10,7 +10,7 @@ import 'antd/dist/antd.css'
 function Component( props: any ) {
 
     //console.log('variables')
-    console.log(props)
+    //console.log(props)
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     //const [data, setData] = useState([])
 
@@ -34,7 +34,7 @@ function Component( props: any ) {
                 columns={props.columns}
                 dataSource={props.data}
                 size="middle"
-                footer={props.responseTime}            
+                footer={props.footer}            
                 pagination={props.pagination}
                 rowKey='id'
             />

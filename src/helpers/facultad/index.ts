@@ -13,7 +13,7 @@ axios.interceptors.response.use( x => {
 })
 
 export const fetchData = async () => {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad`    
+    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/paginado?pageNumber=0&pageSize=10&sortDirection=ASC&sortBy=nombre&estadoAuditoria=true`    
     try {
         const response = await axios.get(url)
         return response

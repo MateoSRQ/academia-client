@@ -11,18 +11,24 @@ interface Facultad {
 
 interface FacultadStore {
     facultad: Facultad[]
+    listaFiltrada : Facultad[]
+    responseTime : string
     listarFacultad: () => {}
     guardarFacultad: (payload: any) => {}
     eliminarFacultad: (id: number) => {}
     actualizarFacultad: (payload: any) => {}
+    filtrarFacultad : (busqueda : string) => void
+    cargarLista : () => void
 }
 
 export const useFacultadStore = create<FacultadStore>((set) => ({
     facultad: [],
+    listaFiltrada : [],
+    responseTime : "",
     listarFacultad: async () => {
         const response = await fetchData()
         console.log(response)        
-        set({ facultad: response.data })
+        set({ facultad: response.data.content, listaFiltrada: response.data.content, responseTime : response.responseTime })
         return response
     },
     guardarFacultad: async (payload: any) => {
@@ -30,6 +36,7 @@ export const useFacultadStore = create<FacultadStore>((set) => ({
         console.log(response)        
         set((state) => ({
             facultad: [...state.facultad, response.data.dato],
+            responseTime : response.responseTime
         }))
         return response
     },
@@ -37,7 +44,8 @@ export const useFacultadStore = create<FacultadStore>((set) => ({
         const response = await deleteData(id)
         console.log(response)
         set((state) => ({
-            facultad : state.facultad.filter(el=>el.id !== id)
+            facultad : state.facultad.filter(el=>el.id !== id),
+            responseTime : response.responseTime
         }))
         return response
     },
@@ -57,7 +65,18 @@ export const useFacultadStore = create<FacultadStore>((set) => ({
                 }
                 return el
             }),
+            responseTime : response.responseTime
         }))
         return response
     },
+    filtrarFacultad : (busqueda : string) => {
+        set(state=>({
+            listaFiltrada : state.facultad.filter(el=> (el.codigo.includes(busqueda)) || (el.nombre.includes(busqueda)) || (el.abreviatura.includes(busqueda)))
+        }))
+    },
+    cargarLista : () => {
+        set(state=>({
+            listaFiltrada : state.facultad
+        }))
+    }
 }))

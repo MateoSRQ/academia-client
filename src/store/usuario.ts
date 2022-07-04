@@ -1,27 +1,20 @@
 import create from "zustand"
 
 interface UsuarioStore {
-    usuario: {
-        nombre: string
-        estado: boolean
-        rutaInicial: string
-    }
+    username: string | null
+    route: string
+    data: {}
     autenticarUsuario: (payload: any) => void
 }
 
 export const useUsuarioStore = create<UsuarioStore>((set) => ({
-    usuario: {
-        nombre: "",
-        estado: false,
-        rutaInicial: "",
-    },
+    username: "Gustavo",
+    route: "",
+    data: {},
     autenticarUsuario: (payload: any) => {
         set({
-            usuario: {
-                nombre: payload.username,
-                estado: true,
-                rutaInicial: payload.ruta,
-            },
+            username: payload.username,            
+            route: payload.ruta,
         })
     },
 }))
