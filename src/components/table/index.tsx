@@ -39,6 +39,7 @@ function Component(props: any) {
         pagination={props.pagination}
         loading={props.loading}
         onChange={props.onChange}
+        rowKey='id'
       />
     </div>
   );

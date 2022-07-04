@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const listarData = async (page: number) => {
-  const url = `https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/sede/paginado?pageNumber=${page}&pageSize=10&sortDirection=DESC&sortBy=id&estadoAuditoria=true`;
+  const url = `https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/sede/paginado?pageNumber=${page}&pageSize=100&sortDirection=DESC&sortBy=id&estadoAuditoria=true`;
   try {
     const response = await axios.get(url);
     return response.data;
