@@ -86,7 +86,7 @@ function Sede() {
           >
             Limpiar
           </Button>
-          <Button
+          {/* <Button
             type="link"
             size="small"
             onClick={() => {
@@ -96,7 +96,7 @@ function Sede() {
             }}
           >
             Filtrar
-          </Button>
+          </Button> */}
         </Space>
       </div>
     ),
@@ -287,6 +287,7 @@ function Sede() {
         try {
           const response = await eliminarSede(id);
           const { resultado, mensaje } = response.data;
+          console.log('respuesta = ', response.data)
           if (resultado === 1) {
             message.success(mensaje);
           } else {
@@ -360,7 +361,7 @@ function Sede() {
           <TabPane tab="Bandeja de información" className={style.tab}>
             <div>
               <div
-                style={{ width: "calc(100% - 150px)", position: "relative" }}
+                style={{ width: "calc(100% - 70px)", position: "relative" }}
               >
                 <div style={{ height: "10000px", width: "calc(100% - 20px)" }}>
                   <Table
@@ -368,7 +369,7 @@ function Sede() {
                     columns={columns}
                     pagination={{
                       total: sede.length,
-                      pageSize: 64,
+                      pageSize: 7,
                     }}
 
                     loading={loading}
