@@ -4,6 +4,7 @@ import 'antd/dist/antd.css'
 import  {motion} from 'framer-motion'
 import Menu from '../../components/menu'
 import Facultad from '../../pages/facultad'
+import Carrera from '../../pages/carrera'
 
 function Component() {
     const [menuVisible, setMenuVisible] = useState(false)
@@ -64,7 +65,7 @@ function Component() {
                 animate={menuVisible?"open":"closed"}
             >
                 <div className={style.container}>
-                    <Facultad />
+                    <Carrera />
                 </div>
                 <div
                     onClick={setMenuStatus}

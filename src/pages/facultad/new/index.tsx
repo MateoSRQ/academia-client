@@ -16,12 +16,9 @@ const Component = (props: any) => {
     }, [props.facultadEditada])
 
     const handleFinish = async (e: any) => {
-        let response
-        if (estado) {
-            response = await actualizarFacultad(e)
-        } else {
-            response = await guardarFacultad(e)
-        }
+        const response = estado
+        ? await actualizarFacultad(e)
+        : await guardarFacultad(e)
         console.log(response)
         const { resultado, mensaje } = response.data
         if (resultado === 1) {
@@ -73,7 +70,7 @@ const Component = (props: any) => {
                         prefix={<FileTextOutlined style={{ marginRight: "0.5em" }} />}
                     />
                 </Form.Item>
-                <Form.Item label="Estado" name="estadoAuditoria">
+                <Form.Item label="Estado" name="activo">
                     <Select>
                         <Select.Option value={true}>Activo</Select.Option>
                         <Select.Option value={false}>Inactivo</Select.Option>

@@ -6,14 +6,14 @@ interface Facultad {
     codigo: string
     nombre: string
     abreviatura: string
-    estadoAuditoria : boolean
+    activo : boolean
 }
 
 interface FacultadStore {
     facultad: Facultad[]
     listaFiltrada : Facultad[]
     responseTime : string
-    listarFacultad: () => {}
+    listarFacultad: () => void
     guardarFacultad: (payload: any) => {}
     eliminarFacultad: (id: number) => {}
     actualizarFacultad: (payload: any) => {}
@@ -28,8 +28,7 @@ export const useFacultadStore = create<FacultadStore>((set) => ({
     listarFacultad: async () => {
         const response = await fetchData()
         console.log(response)        
-        set({ facultad: response.data.content, listaFiltrada: response.data.content, responseTime : response.responseTime })
-        return response
+        set({ facultad: response.data.content, listaFiltrada: response.data.content, responseTime : response.responseTime })        
     },
     guardarFacultad: async (payload: any) => {
         const response = await saveData(payload)

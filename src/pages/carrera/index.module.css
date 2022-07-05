@@ -107,7 +107,8 @@
     align-items: self-end;
     flex-direction: column;
     justify-content: center;
-    width: calc(100% - 50px);    
+    width: calc(100% - 50px);
+    
 }
 
 .childContainer {    
@@ -119,20 +120,8 @@
 .addIcon {
     font-size: 36px;
     margin: auto 0;
-    color: #4241a9;
+    color: #70b4fc;
     transform: translateY(-6%);
-}
-
-#searchButton:global(.ant-btn) {
-    background-color: #4241a9;
-    border-color: #4241a9;
-}
-
-#searchButton:global(.ant-btn:hover) {
-    background-color: white;
-    border-color: #4241a9;
-    color : #4241a9;
-    
 }
 
 .date {
@@ -143,7 +132,7 @@
 
 .tableIcon {
     font-size: 17px;
-    color: #4241a9;
+    color: #70b4fc;
 }
 
 .loading {
