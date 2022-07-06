@@ -1,10 +1,23 @@
 import axios from "axios";
 
+axios.interceptors.request.use( x => {
+  x.meta = x.meta || {}
+  x.meta.requestStartedAt = new Date().getTime();
+  return x;
+})
+
+axios.interceptors.response.use( x => {
+  const time = (new Date().getTime() - x.config.meta.requestStartedAt) / 1000 
+  x.responseTime = time.toFixed(2)
+      return x;
+})
+
 export const listarData = async (page: number) => {
   const url = `https://prjboss.uap.edu.pe:8443/sisacademicopruebaback/api/v1/sede/paginado?pageNumber=${page}&pageSize=100&sortDirection=DESC&sortBy=id&estadoAuditoria=true`;
   try {
     const response = await axios.get(url);
-    return response.data;
+    console.log("listarSedes: ", response);
+    return response;
   } catch (error) {
     return error;
   }

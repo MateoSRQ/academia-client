@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Drawer, Button, Space, Col, InputRef } from "antd";
 import { Row, Tag, message, Modal, Spin } from "antd";
-import { DeleteTwoTone, EditTwoTone, HighlightOutlined, SearchOutlined } from "@ant-design/icons";
+import { DeleteTwoTone, EditTwoTone, HighlightOutlined, PlusSquareOutlined, SearchOutlined } from "@ant-design/icons";
 import { ExclamationCircleOutlined, FolderAddTwoTone } from "@ant-design/icons";
 import type { ColumnsType, ColumnType } from 'antd/lib/table';
 import type { FilterConfirmProps } from 'antd/lib/table/interface';
@@ -18,7 +18,7 @@ const { Search } = Input;
 const { TabPane } = Tabs;
 
 function Sede() {
-  const { sede, listarSedes, loading, eliminarSede } = useSedeStore();
+  const { sede, listarSedes, loading, eliminarSede, responseTime } = useSedeStore();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [typeEdit, setTypeEdit] = useState(false);
   const [dataEdit, setDataEdit] = useState();
@@ -259,7 +259,19 @@ function Sede() {
       ),
     },
   ];
-
+  const tableFooter = () => {
+    const date = new Date()
+    const hours = date.getHours() > 12 ? date.getHours() % 12 : date.getHours()
+    const minutes = date.getMinutes()
+    const period = date.getHours() > 12 ? "PM" : "AM"
+    const time = `${hours < 9 ? "0" + hours : hours}:${minutes < 9 ? "0" + minutes : minutes
+      } ${period} `
+    return (
+      <h5 style={{ textAlign: "right" }}>
+        {`${time} - ${responseTime} seg. en respuesta`}
+      </h5>
+    )
+  }
   useEffect(() => {
     listarSedes(0);
   }, []);
@@ -361,12 +373,13 @@ function Sede() {
           <TabPane tab="Bandeja de información" className={style.tab}>
             <div>
               <div
-                style={{ width: "calc(100% - 70px)", position: "relative" }}
+                style={{ width: "calc(100% - 120px)", position: "relative" }}
               >
                 <div style={{ height: "10000px", width: "calc(100% - 20px)" }}>
                   <Table
                     data={sede}
                     columns={columns}
+                    footer={tableFooter}
                     pagination={{
                       total: sede.length,
                       pageSize: 7,
@@ -387,10 +400,10 @@ function Sede() {
                     goToCreate();
                   }}
                 >
-                  <FolderAddTwoTone
+                  <PlusSquareOutlined
                     twoToneColor="#4241a5"
-                    style={{ fontSize: "26px", color: "#08c" }}
-                  />
+                    className={style.addIcon}
+                  />Nueva Sede
                 </Button>
               </Space>
             </div>

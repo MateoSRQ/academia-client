@@ -36,6 +36,7 @@ function Component(props: any) {
         columns={props.columns}
         dataSource={props.data}
         size="small"
+        footer={props.footer}
         pagination={props.pagination}
         loading={props.loading}
         onChange={props.onChange}

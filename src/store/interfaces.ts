@@ -9,6 +9,7 @@ export interface SedeStore {
   loading: boolean;
   page: number;
   sede: Sede[];
+  responseTime : string;
   listarSedes: (page: number) => {};
   guardarSede: (payload: any) => {};
   eliminarSede: (id: number) => {};

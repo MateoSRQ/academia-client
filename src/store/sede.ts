@@ -7,19 +7,20 @@ import {
   listarDepartamento,
   listarProvincia,
   listarDistrito,
-} from "../components/helpers/sede";
+} from "../helpers/sede";
 import { SedeStore, LocationStore, SedeSave } from "./interfaces";
 
 export const useSedeStore = create<SedeStore>((set) => ({
   loading: false,
   page: 0,
   sede: [],
+  responseTime : "",
   listarSedes: async (page: number) => {
     set({ loading: true });
     const response = await listarData(page);
-    console.log("listarSedes: ", response);
-    const { content } = response;
-    set((state) => ({ sede: state.sede.concat(content) }));
+    
+    const { content } = response.data;
+    set((state) => ({ sede: state.sede.concat(content), responseTime : response.responseTime }));
     set({ loading: false });
   },
   
@@ -27,6 +28,7 @@ export const useSedeStore = create<SedeStore>((set) => ({
     const response = await guardarData(payload);
     set((state) => ({
       sede: [...state.sede, response.dato],
+      responseTime : response.responseTime
     }));
     return response;
   },
@@ -57,6 +59,7 @@ export const useSedeStore = create<SedeStore>((set) => ({
         }
         return valor;
       }),
+      responseTime : response.responseTime
     }));
     return response;
   },
