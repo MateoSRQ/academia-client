@@ -21,9 +21,9 @@ export const fetchData = async () => {
         return error
     }
 }
-/*
+
 export const saveData = async (payload : any) => {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/add`  
+    const url = `${import.meta.env.VITE_BACKEND_URL}/carrera/add`  
     try {
         const response = await axios.post(url,payload)
         return response
@@ -33,7 +33,7 @@ export const saveData = async (payload : any) => {
 }
 
 export const deleteData = async (id : number) => {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/${id}/remove`
+    const url = `${import.meta.env.VITE_BACKEND_URL}/carrera/${id}/remove`
     try {
         const response = await axios.delete(url)
         return response
@@ -43,7 +43,7 @@ export const deleteData = async (id : number) => {
 }
 
 export const updateData = async (payload : any) => {
-    const url = `${import.meta.env.VITE_BACKEND_URL}/facultad/${payload.id}`
+    const url = `${import.meta.env.VITE_BACKEND_URL}/carrera/${payload.id}`
     try {
         const response = await axios.put(url,payload)
         return response
@@ -51,4 +51,3 @@ export const updateData = async (payload : any) => {
         return error
     }
 }
-*/

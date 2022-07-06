@@ -123,17 +123,6 @@
     transform: translateY(-6%);
 }
 
-#searchButton:global(.ant-btn) {
-    background-color: #4241a9;
-    border-color: #4241a9;
-}
-
-#searchButton:global(.ant-btn:hover) {
-    background-color: white;
-    border-color: #4241a9;
-    color : #4241a9;
-    
-}
 
 .date {
     text-align: right;
@@ -152,4 +141,15 @@
     display: flex;
     align-items : center;
     justify-content : center;
+}
+
+.btn:global(.ant-btn) {
+    background-color: #4241a9;
+    border-color: #4241a9;
+}
+
+.btn:global(.ant-btn:hover) {
+    background-color: white;
+    border-color: #4241a9;
+    color : #4241a9;    
 }
